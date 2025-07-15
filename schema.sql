@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS esms;
+USE esms;
+
+CREATE TABLE IF NOT EXISTS registration (
+    loginid VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(100),
+    name VARCHAR(100)
+);
