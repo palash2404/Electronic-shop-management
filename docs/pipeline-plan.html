@@ -1,0 +1,264 @@
+<title>Electronics Knowledge Graph Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: single reading column; pipeline diagram up top, then one section per stage, each with tools / learn / done-when */
+:root{
+  --bg:#f6f7f6; --surface:#ffffff; --fg:#1b2220; --muted:#5a6663; --line:#d9dfdc;
+  --sem:#4448b8; --sem-bg:#ecedfb; --graph:#0e7466; --graph-bg:#e2f3ef; --ai:#b9502b; --ai-bg:#fbebe4; --src:#5d6662; --src-bg:#eef0ef;
+  --code-bg:#eef1ef;
+  --f-display:"Space Grotesk",system-ui,sans-serif; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121615; --surface:#1a1f1e; --fg:#e4eae8; --muted:#9aa6a2; --line:#2c3432;
+  --sem:#a6a9f5; --sem-bg:#24264a; --graph:#6fd2bf; --graph-bg:#163430; --ai:#f0a07f; --ai-bg:#3d2219; --src:#b3bcb8; --src-bg:#252b29;
+  --code-bg:#1f2524; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121615; --surface:#1a1f1e; --fg:#e4eae8; --muted:#9aa6a2; --line:#2c3432;
+  --sem:#a6a9f5; --sem-bg:#24264a; --graph:#6fd2bf; --graph-bg:#163430; --ai:#f0a07f; --ai-bg:#3d2219; --src:#b3bcb8; --src-bg:#252b29;
+  --code-bg:#1f2524; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.65 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:760px;margin:0 auto;padding-block:48px 80px;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:2.1rem}
+h2{font-size:1.4rem}
+h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500}
+p{margin:0}
+.lede{color:var(--muted);max-width:62ch;margin-top:12px}
+header .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tag{font:12px var(--f-mono);padding:3px 8px;border-radius:4px;border:1px solid var(--line);color:var(--muted)}
+.diagram{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.diagram svg{display:block;min-width:620px;width:100%;height:auto}
+.diagram text{font-family:var(--f-body)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin-top:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.stage{display:grid;grid-template-columns:56px 1fr;gap:16px}
+.stage > div{min-width:0;display:flex;flex-direction:column;gap:14px}
+.num{font:600 1.1rem var(--f-display);width:44px;height:44px;border-radius:8px;display:grid;place-items:center}
+.k-src .num{background:var(--src-bg);color:var(--src)}
+.k-sem .num{background:var(--sem-bg);color:var(--sem)}
+.k-graph .num{background:var(--graph-bg);color:var(--graph)}
+.k-ai .num{background:var(--ai-bg);color:var(--ai)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.meta > div{min-width:0;display:flex;flex-direction:column;gap:6px}
+ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+code{font:13px var(--f-mono);background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{margin:0;background:var(--code-bg);border-radius:8px;padding:14px 16px;overflow-x:auto;font:13px/1.55 var(--f-mono)}
+pre code{background:none;padding:0}
+.done{border-left:3px solid var(--line);padding-left:12px;color:var(--muted);font-size:15px}
+.done b{color:var(--fg);font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:15px}
+.tablewrap{overflow-x:auto}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+hr{border:0;border-top:1px solid var(--line);margin:0}
+@media (max-width:520px){.stage{grid-template-columns:1fr}.num{width:36px;height:36px;font-size:1rem}h1{font-size:1.7rem}}
+</style>
+
+<main>
+<header>
+  <h1>Electronics knowledge graph</h1>
+  <p class="lede">A learning project that takes a small electronics shop database and grows it into a validated knowledge graph with an AI assistant on top. The shop is reframed around circular economy: products are made of components, components contain materials, and some materials are hazardous.</p>
+  <div class="tags"><span class="tag">RDF</span><span class="tag">SPARQL</span><span class="tag">OWL</span><span class="tag">SHACL</span><span class="tag">Neo4j</span><span class="tag">Cypher</span><span class="tag">PydanticAI</span><span class="tag">Langfuse</span></div>
+</header>
+
+<section>
+  <div class="diagram">
+  <svg viewBox="0 0 680 600" role="img" aria-label="Pipeline: shop data and datasheets become RDF, shaped by OWL, validated by SHACL, loaded into Neo4j, used by an AI agent whose writes go back through SHACL.">
+    <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <g stroke="var(--muted)" stroke-width="1" fill="none">
+      <line x1="335" y1="96" x2="335" y2="134" marker-end="url(#a)"/>
+      <path d="M105 96 L105 116 L260 116 L260 134" marker-end="url(#a)"/>
+      <line x1="180" y1="164" x2="198" y2="164" marker-end="url(#a)"/>
+      <line x1="470" y1="164" x2="494" y2="164" marker-end="url(#a)"/>
+      <line x1="335" y1="192" x2="335" y2="230" marker-end="url(#a)"/>
+      <line x1="470" y1="260" x2="494" y2="260" marker-end="url(#a)"/>
+      <line x1="335" y1="288" x2="335" y2="326" marker-end="url(#a)"/>
+      <line x1="470" y1="356" x2="494" y2="356" marker-end="url(#a)"/>
+      <line x1="335" y1="386" x2="335" y2="422" marker-start="url(#a)" marker-end="url(#a)"/>
+      <line x1="470" y1="452" x2="494" y2="452" marker-end="url(#a)"/>
+      <line x1="335" y1="482" x2="335" y2="518" marker-start="url(#a)" marker-end="url(#a)"/>
+    </g>
+    <path d="M200 452 L186 452 L186 260 L198 260" fill="none" stroke="var(--ai)" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#a)"/>
+    <g font-size="14" text-anchor="middle">
+      <rect x="200" y="40" width="270" height="56" rx="8" fill="var(--src-bg)" stroke="var(--src)" stroke-width=".6"/>
+      <text x="335" y="64" fill="var(--fg)" font-weight="500">Shop data (MySQL)</text><text x="335" y="83" fill="var(--muted)" font-size="12">Products, sales, customers</text>
+      <rect x="30" y="40" width="150" height="56" rx="8" fill="var(--ai-bg)" stroke="var(--ai)" stroke-width=".6"/>
+      <text x="105" y="64" fill="var(--fg)" font-weight="500">Datasheets (PDF)</text><text x="105" y="83" fill="var(--muted)" font-size="12">LLM extraction</text>
+      <rect x="200" y="136" width="270" height="56" rx="8" fill="var(--sem-bg)" stroke="var(--sem)" stroke-width=".6"/>
+      <text x="335" y="160" fill="var(--fg)" font-weight="500">RDF graph</text><text x="335" y="179" fill="var(--muted)" font-size="12">rdflib, Turtle triples</text>
+      <rect x="30" y="136" width="150" height="56" rx="8" fill="var(--sem-bg)" stroke="var(--sem)" stroke-width=".6"/>
+      <text x="105" y="160" fill="var(--fg)" font-weight="500">OWL ontology</text><text x="105" y="179" fill="var(--muted)" font-size="12">Classes, rules</text>
+      <rect x="496" y="136" width="150" height="56" rx="8" fill="var(--sem-bg)" stroke="var(--sem)" stroke-width=".6"/>
+      <text x="571" y="160" fill="var(--fg)" font-weight="500">SPARQL queries</text><text x="571" y="179" fill="var(--muted)" font-size="12">Analysis</text>
+      <rect x="200" y="232" width="270" height="56" rx="8" fill="var(--sem-bg)" stroke="var(--sem)" stroke-width=".6"/>
+      <text x="335" y="256" fill="var(--fg)" font-weight="500">SHACL validation</text><text x="335" y="275" fill="var(--muted)" font-size="12">pyshacl quality gate</text>
+      <rect x="496" y="232" width="150" height="56" rx="8" fill="var(--src-bg)" stroke="var(--src)" stroke-width=".6"/>
+      <text x="571" y="256" fill="var(--fg)" font-weight="500">Error report</text><text x="571" y="275" fill="var(--muted)" font-size="12">Rejected triples</text>
+      <rect x="200" y="328" width="270" height="56" rx="8" fill="var(--graph-bg)" stroke="var(--graph)" stroke-width=".6"/>
+      <text x="335" y="352" fill="var(--fg)" font-weight="500">Neo4j graph</text><text x="335" y="371" fill="var(--muted)" font-size="12">n10s import, Cypher</text>
+      <rect x="496" y="328" width="150" height="56" rx="8" fill="var(--graph-bg)" stroke="var(--graph)" stroke-width=".6"/>
+      <text x="571" y="352" fill="var(--fg)" font-weight="500">Visualization</text><text x="571" y="371" fill="var(--muted)" font-size="12">Bloom, WebVOWL</text>
+      <rect x="200" y="424" width="270" height="56" rx="8" fill="var(--ai-bg)" stroke="var(--ai)" stroke-width=".6"/>
+      <text x="335" y="448" fill="var(--fg)" font-weight="500">AI agent</text><text x="335" y="467" fill="var(--muted)" font-size="12">PydanticAI + small LLM</text>
+      <rect x="496" y="424" width="150" height="56" rx="8" fill="var(--ai-bg)" stroke="var(--ai)" stroke-width=".6"/>
+      <text x="571" y="448" fill="var(--fg)" font-weight="500">Langfuse</text><text x="571" y="467" fill="var(--muted)" font-size="12">Traces, evals</text>
+      <rect x="200" y="520" width="270" height="56" rx="8" fill="var(--src-bg)" stroke="var(--src)" stroke-width=".6"/>
+      <text x="335" y="544" fill="var(--fg)" font-weight="500">You (chat)</text><text x="335" y="563" fill="var(--muted)" font-size="12">Ask, add, edit, delete</text>
+    </g>
+  </svg>
+  </div>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--sem)"></i>Semantic web layer</span>
+    <span><i class="sw" style="background:var(--graph)"></i>Graph database</span>
+    <span><i class="sw" style="background:var(--ai)"></i>AI layer</span>
+    <span><i class="sw" style="background:var(--src)"></i>Data in and out</span>
+    <span><svg width="26" height="8" aria-hidden="true"><line x1="0" y1="4" x2="26" y2="4" stroke="var(--ai)" stroke-width="1.5" stroke-dasharray="4 3"/></svg>AI writes are re-validated</span>
+  </div>
+</section>
+
+<section class="stage k-src">
+  <div class="num">1</div>
+  <div>
+    <h2>Data sources</h2>
+    <p>The current repo only creates a <code>registration</code> table; the customer, product, bill and sales tables are used in code but never defined. Finish the relational schema first and add the circular economy tables, so the graph has real connections to work with.</p>
+    <div class="meta">
+      <div><h3>Tools</h3><ul><li>MySQL, <code>schema.sql</code></li><li>Python seed script</li></ul></div>
+      <div><h3>You learn</h3><ul><li>Why flat tables hide relationships</li><li>What a good domain model looks like</li></ul></div>
+    </div>
+    <p>New tables: <code>component</code>, <code>material</code>, <code>manufacturer</code>, plus link tables <code>product_component</code> and <code>component_material</code> (with mass in grams).</p>
+    <p class="done"><b>Done when</b> about 20 real products (phones, laptops, chargers) are seeded with their components and materials.</p>
+  </div>
+</section>
+
+<section class="stage k-sem">
+  <div class="num">2</div>
+  <div>
+    <h2>OWL ontology</h2>
+    <p>The ontology is the vocabulary and rulebook for the graph: which kinds of things exist and how they may connect. It is a schema, not a visualization; you view it in Protégé or WebVOWL.</p>
+    <div class="meta">
+      <div><h3>Tools</h3><ul><li>Protégé (desktop editor)</li><li>HermiT reasoner</li><li>WebVOWL for the picture</li></ul></div>
+      <div><h3>You learn</h3><ul><li>Classes, subclasses, properties</li><li>Domain and range</li><li>Inference: facts you never wrote</li></ul></div>
+    </div>
+<pre><code>:Smartphone  rdfs:subClassOf :Device .
+:hasPart     a owl:TransitiveProperty .
+:HazardousProduct owl:equivalentClass [
+    owl:onProperty :hasPart ;
+    owl:someValuesFrom [ owl:onProperty :containsMaterial ;
+                         owl:someValuesFrom :HazardousMaterial ] ] .</code></pre>
+    <p class="done"><b>Done when</b> <code>ontology.ttl</code> exists and the reasoner classifies a phone with a lead-containing solder joint as a <code>HazardousProduct</code> on its own.</p>
+  </div>
+</section>
+
+<section class="stage k-sem">
+  <div class="num">3</div>
+  <div>
+    <h2>RDF graph and SPARQL</h2>
+    <p>A Python script reads MySQL and writes every row as triples using the ontology's terms. SPARQL then answers the analysis questions.</p>
+    <div class="meta">
+      <div><h3>Tools</h3><ul><li><code>rdflib</code></li><li>Turtle (<code>.ttl</code>) files</li><li>Apache Jena Fuseki (optional)</li></ul></div>
+      <div><h3>You learn</h3><ul><li>URIs, triples, namespaces</li><li>SPARQL SELECT, FILTER, GROUP BY</li><li>Property paths like <code>:hasPart+</code></li></ul></div>
+    </div>
+<pre><code># Products sold last month that contain a hazardous material
+SELECT ?product (SUM(?qty) AS ?sold) WHERE {
+  ?sale :ofProduct ?product ; :quantity ?qty ; :date ?d .
+  ?product :hasPart+/:containsMaterial ?m .
+  ?m a :HazardousMaterial .
+  FILTER (?d >= "2026-10-01"^^xsd:date)
+} GROUP BY ?product ORDER BY DESC(?sold)</code></pre>
+    <p class="done"><b>Done when</b> <code>to_rdf.py</code> produces <code>data.ttl</code> and five saved queries return correct answers.</p>
+  </div>
+</section>
+
+<section class="stage k-sem">
+  <div class="num">4</div>
+  <div>
+    <h2>SHACL validation</h2>
+    <p>SHACL shapes describe what valid data looks like. Every load, and later every AI write, passes through this gate. Failures go to a readable error report instead of the database.</p>
+    <div class="meta">
+      <div><h3>Tools</h3><ul><li><code>pyshacl</code></li><li><code>shapes.ttl</code></li></ul></div>
+      <div><h3>You learn</h3><ul><li>Node and property shapes</li><li>Cardinality, datatypes, value ranges</li><li>How SHACL differs from OWL</li></ul></div>
+    </div>
+<pre><code>:ProductShape a sh:NodeShape ;
+  sh:targetClass :Product ;
+  sh:property [ sh:path :price ; sh:datatype xsd:decimal ;
+                sh:minInclusive 0 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path :hasPart ; sh:class :Component ; sh:minCount 1 ] .</code></pre>
+    <p class="done"><b>Done when</b> you break the data on purpose (negative price, product with no parts) and the report names each problem.</p>
+  </div>
+</section>
+
+<section class="stage k-graph">
+  <div class="num">5</div>
+  <div>
+    <h2>Neo4j and Cypher</h2>
+    <p>RDF and Neo4j use different graph models. Rather than syncing two databases, the neosemantics plugin imports the validated RDF into Neo4j, which becomes the working store for the agent.</p>
+    <div class="meta">
+      <div><h3>Tools</h3><ul><li>Neo4j in Docker</li><li>neosemantics (n10s) plugin</li><li>Neo4j Browser and Bloom</li></ul></div>
+      <div><h3>You learn</h3><ul><li>Labeled property graphs</li><li>Cypher MATCH, CREATE, MERGE</li><li>RDF vs property graph trade-offs</li></ul></div>
+    </div>
+<pre><code>MATCH (p:Product)-[:HAS_PART*]->(:Component)-[:CONTAINS]->(m:Material {hazardous:true})
+RETURN p.name, collect(DISTINCT m.name) AS hazards</code></pre>
+    <p class="done"><b>Done when</b> all five SPARQL queries are rewritten in Cypher with the same results, and Bloom shows the product graph.</p>
+  </div>
+</section>
+
+<section class="stage k-ai">
+  <div class="num">6</div>
+  <div>
+    <h2>AI agent</h2>
+    <p>A PydanticAI agent with typed tools. The model never writes raw Cypher for changes: it calls a tool, the tool builds the triples, SHACL checks them, and only then does Neo4j get updated. A small, cheap model is enough because the tools do the heavy lifting.</p>
+    <div class="meta">
+      <div><h3>Tools</h3><ul><li>PydanticAI</li><li>Small hosted model or local Ollama</li><li>Langfuse for traces</li></ul></div>
+      <div><h3>You learn</h3><ul><li>Tool calling with typed inputs</li><li>Guardrails on writes</li><li>Tracing what the model did</li></ul></div>
+    </div>
+    <p>Starter tools: <code>search_products</code>, <code>get_hazards</code>, <code>run_readonly_cypher</code>, <code>add_product</code>, <code>update_product</code>, <code>delete_product</code> (asks for confirmation).</p>
+    <p class="done"><b>Done when</b> “add a 65W USB-C charger with a lithium battery” creates valid nodes, and “set its price to -5” is refused with the SHACL reason.</p>
+  </div>
+</section>
+
+<section class="stage k-ai">
+  <div class="num">7</div>
+  <div>
+    <h2>Extraction and evaluation</h2>
+    <p>An extraction tool reads a product datasheet or safety data sheet (PDF) and turns it into components and materials. A small Langfuse dataset checks that answers stay correct as you change things.</p>
+    <div class="meta">
+      <div><h3>Tools</h3><ul><li><code>pypdf</code> or <code>pdfplumber</code></li><li>Pydantic output models</li><li>Langfuse datasets and scores</li></ul></div>
+      <div><h3>You learn</h3><ul><li>Structured extraction</li><li>Evaluating LLM output</li><li>Regression testing an agent</li></ul></div>
+    </div>
+    <p class="done"><b>Done when</b> three real datasheets import cleanly and a 10-question eval set scores every run in Langfuse.</p>
+  </div>
+</section>
+
+<hr>
+
+<section style="display:flex;flex-direction:column;gap:16px">
+  <h2>How it maps to the MIRAKEL role</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Job task</th><th>Where it shows up</th></tr></thead>
+    <tbody>
+      <tr><td>Model and maintain a knowledge graph of components</td><td>Stages 1–5: ontology, RDF, SHACL, Neo4j</td></tr>
+      <tr><td>Build tools for an agentic LLM assistant</td><td>Stage 6: PydanticAI tools with validated writes</td></tr>
+      <tr><td>Extract information from hazardous material reports</td><td>Stage 7: datasheet and safety sheet extraction</td></tr>
+      <tr><td>Evaluate tools and answers with Langfuse</td><td>Stages 6–7: traces and eval dataset</td></tr>
+      <tr><td>Nice to have: Neo4j/Cypher, RDF/OWL/SHACL, LLM frameworks</td><td>All covered, each with a working deliverable</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:16px">
+  <h2>Suggested repo layout</h2>
+<pre><code>electronics-kg/
+├── sql/          schema.sql, seed.sql
+├── ontology/     ontology.ttl
+├── shapes/       shapes.ttl
+├── rdf/          to_rdf.py, data.ttl
+├── queries/      sparql/*.rq, cypher/*.cypher
+├── neo4j/        docker-compose.yml, load_n10s.cypher
+├── agent/        tools.py, agent.py, extract.py
+└── evals/        dataset.json, run_evals.py</code></pre>
+</section>
+</main>
