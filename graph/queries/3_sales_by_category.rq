@@ -1,0 +1,13 @@
+# Units sold and revenue per product category.
+PREFIX eshop: <http://example.org/eshop#>
+
+SELECT ?category (SUM(?qty) AS ?units) (SUM(?qty * ?price) AS ?revenue)
+WHERE {
+  ?line a eshop:BillLine ;
+        eshop:soldProduct ?product ;
+        eshop:quantity ?qty ;
+        eshop:unitPrice ?price .
+  ?product eshop:category ?category .
+}
+GROUP BY ?category
+ORDER BY DESC(?revenue)

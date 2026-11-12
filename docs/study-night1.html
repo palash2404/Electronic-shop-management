@@ -1,0 +1,191 @@
+<title>Night 1 Study Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: single study column; a sticky progress strip, then two timed parts made of checkable tasks, then self-check questions */
+:root{
+  --bg:#f6f7f6; --surface:#ffffff; --fg:#1b2220; --muted:#5a6663; --line:#d9dfdc;
+  --sql:#5d6662; --sql-bg:#eef0ef; --sem:#4448b8; --sem-bg:#ecedfb; --done:#0e7466; --done-bg:#e2f3ef;
+  --code-bg:#eef1ef;
+  --f-display:"Space Grotesk",system-ui,sans-serif; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121615; --surface:#1a1f1e; --fg:#e4eae8; --muted:#9aa6a2; --line:#2c3432;
+  --sql:#b3bcb8; --sql-bg:#252b29; --sem:#a6a9f5; --sem-bg:#24264a; --done:#6fd2bf; --done-bg:#163430;
+  --code-bg:#1f2524; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121615; --surface:#1a1f1e; --fg:#e4eae8; --muted:#9aa6a2; --line:#2c3432;
+  --sql:#b3bcb8; --sql-bg:#252b29; --sem:#a6a9f5; --sem-bg:#24264a; --done:#6fd2bf; --done-bg:#163430;
+  --code-bg:#1f2524; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.65 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+main{max-width:720px;margin:0 auto;padding-block:40px 80px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:2rem}
+h2{font-size:1.35rem}
+h3{font-size:1.05rem;font-weight:500}
+p{margin:0}
+a{color:var(--sem)}
+a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--sem);outline-offset:2px}
+.lede{color:var(--muted);margin-top:10px;max-width:60ch}
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+.bar{flex:1;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--done);transition:width .25s}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+.count{font:13px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.part{display:flex;flex-direction:column;gap:16px}
+.part-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.time{font:13px var(--f-mono);padding:2px 8px;border-radius:4px}
+.p-sql .time{background:var(--sql-bg);color:var(--sql)}
+.p-sem .time{background:var(--sem-bg);color:var(--sem)}
+.task{display:grid;grid-template-columns:24px 1fr;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.task > div{min-width:0;display:flex;flex-direction:column;gap:6px}
+.task input{width:18px;height:18px;margin-top:3px;accent-color:var(--done);cursor:pointer}
+.task label{cursor:pointer}
+.task.is-done{background:var(--done-bg);border-color:transparent}
+.task.is-done h3{text-decoration:line-through;text-decoration-color:var(--muted)}
+.where{font:12px var(--f-mono);color:var(--muted)}
+.task p,.task li{font-size:15px;color:var(--muted)}
+.task p b,.task li b{color:var(--fg);font-weight:500}
+ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+code{font:13px var(--f-mono);background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{margin:0;background:var(--code-bg);border-radius:8px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--f-mono)}
+pre code{background:none;padding:0}
+.key{border-left:3px solid var(--sem);padding-left:10px;font-size:15px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+summary{cursor:pointer;font-weight:500}
+details p{margin-top:10px;color:var(--muted);font-size:15px}
+.qs{display:flex;flex-direction:column;gap:10px}
+.note{font-size:15px;color:var(--muted)}
+</style>
+
+<main>
+<header>
+  <h1>Night 1 study plan</h1>
+  <p class="lede">About three hours: one hour making sure you understand the day 1 shop database, two hours preparing for day 2 (RDF, OWL and a first look at SPARQL). Tick tasks as you go; your ticks are remembered in this browser.</p>
+</header>
+
+<div class="progress" aria-live="polite">
+  <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+  <span class="count" id="count">0 / 10 done</span>
+</div>
+
+<section class="part p-sql">
+  <div class="part-head"><h2>Part 1: Understand what we built today</h2><span class="time">~60 min</span></div>
+
+  <div class="task"><input type="checkbox" id="t1"><div><label for="t1"><h3>Primary and foreign keys</h3></label>
+    <span class="where">sql/schema.sql</span>
+    <p>Why <code>product.manufacturer_id</code> points to <code>manufacturer</code>, and what happens if you insert a product with a manufacturer that does not exist.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t2"><div><label for="t2"><h3>Many-to-many link tables</h3></label>
+    <span class="where">product_component, component_material</span>
+    <p>A phone has many components; one battery model is in many products. Why that needs a third table.</p>
+    <p class="key"><b>Most important one.</b> These link tables become graph edges tomorrow.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t3"><div><label for="t3"><h3>CHECK constraints</h3></label>
+    <span class="where">unit_price &gt;= 0, mass_g &gt; 0</span>
+    <p>The database refusing bad data. SHACL does the same job for the graph on day 3.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t4"><div><label for="t4"><h3>JOINs</h3></label>
+    <span class="where">esms.py → hazardous_products()</span>
+    <p>Trace the four joins: product → product_component → component_material → material. Learn the basics in <a href="https://sqlbolt.com/lesson/select_queries_with_joins" target="_blank" rel="noopener">SQLBolt lessons 6–7</a> (about 20 minutes).</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t5"><div><label for="t5"><h3>Transactions</h3></label>
+    <span class="where">esms.py → new_bill()</span>
+    <p>Why the whole bill was cancelled when one item was out of stock: all or nothing.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t6"><div><label for="t6"><h3>The domain</h3></label>
+    <span class="where">sql/seed.sql</span>
+    <ul>
+      <li><b>CAS number:</b> a unique ID for a chemical substance, e.g. lead is 7439-92-1.</li>
+      <li><b>RoHS:</b> EU rule restricting lead, mercury, cadmium and certain flame retardants in electronics.</li>
+      <li><b>Critical raw material:</b> a material the EU sees as economically important and supply-risky (cobalt, lithium, graphite, rare earths).</li>
+    </ul>
+    <p>Hands-on: run <code>python3 esms.py</code>, add a product, create a bill, then <code>python3 db.py</code> to reset.</p></div></div>
+</section>
+
+<section class="part p-sem">
+  <div class="part-head"><h2>Part 2: Prepare for tomorrow</h2><span class="time">~2 h</span></div>
+
+  <div class="task"><input type="checkbox" id="t7"><div><label for="t7"><h3>RDF, the data format</h3></label>
+    <span class="where">~60 min · <a href="https://www.w3.org/TR/rdf11-primer/" target="_blank" rel="noopener">W3C RDF 1.1 Primer</a>, sections 1–3 and 5.1</span>
+    <ul>
+      <li><b>Triple:</b> subject → predicate → object. Every fact is one triple.</li>
+      <li><b>URI:</b> a global name for every thing, like <code>ex:P01</code>, instead of a row number.</li>
+      <li><b>Literal:</b> a plain value, like <code>"599.00"^^xsd:decimal</code>.</li>
+      <li><b>Prefix:</b> <code>@prefix ex: &lt;http://example.org/shop#&gt; .</code> saves typing.</li>
+      <li><b>rdf:type</b> (written <code>a</code> in Turtle): “P01 is a Smartphone”.</li>
+    </ul></div></div>
+
+  <div class="task"><input type="checkbox" id="t8"><div><label for="t8"><h3>Exercise: write P01 in Turtle by hand</h3></label>
+    <span class="where">~15 min · use the data in sql/seed.sql</span>
+    <p>Describe the Voltaris Pulse 6 and its 4500 mAh battery (C01) in about ten triples. Tomorrow we compare yours with what the script generates. Start from this:</p>
+<pre><code>@prefix ex:  &lt;http://example.org/shop#&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+ex:P01 a ex:Smartphone ;
+    ex:name "Voltaris Pulse 6" ;
+    # price? manufacturer? which components?
+    .
+
+ex:C01 a ex:Battery ;
+    # which materials, and how many grams?
+    .</code></pre></div></div>
+
+  <div class="task"><input type="checkbox" id="t9"><div><label for="t9"><h3>OWL, the vocabulary</h3></label>
+    <span class="where">~40 min · <a href="https://protege.stanford.edu/publications/ontology_development/ontology101.pdf" target="_blank" rel="noopener">Ontology Development 101</a>, sections 1–4</span>
+    <ul>
+      <li><b>Classes and subclasses:</b> Smartphone is a subclass of Device.</li>
+      <li><b>Object vs datatype property:</b> hasPart links two things; price links a thing to a value.</li>
+      <li><b>Domain and range:</b> hasPart goes from a Product to a Component.</li>
+      <li><b>Transitive property:</b> if A has part B and B has part C, then A has part C.</li>
+      <li><b>Open-world assumption:</b> missing data means unknown, not false. The biggest shift from SQL, and a favourite interview question.</li>
+    </ul></div></div>
+
+  <div class="task"><input type="checkbox" id="t10"><div><label for="t10"><h3>SPARQL, first look</h3></label>
+    <span class="where">~20 min · <a href="https://www.w3.org/TR/sparql11-query/#basicpatterns" target="_blank" rel="noopener">SPARQL 1.1 Query</a>, section 2</span>
+    <p>Just get the pattern. The WHERE part looks like Turtle with variables:</p>
+<pre><code>SELECT ?phone WHERE { ?phone a ex:Smartphone . }</code></pre></div></div>
+</section>
+
+<section class="part">
+  <h2>Check yourself before bed</h2>
+  <p class="note">Write your answers in <code>NOTES.md</code> in the repo first, then open each one to compare. We go through them at the start of day 2.</p>
+  <div class="qs">
+    <details><summary>1. Why does a many-to-many relationship need a link table in SQL? What replaces it in RDF?</summary>
+      <p>A table column holds one value per row, so a product cannot list many components in one column. The link table stores one row per pair. In RDF there are no rows: each pair is simply a triple, <code>ex:P01 ex:hasPart ex:C01</code>, and you add as many as you need.</p></details>
+    <details><summary>2. What are the three parts of a triple? Write one about lead.</summary>
+      <p>Subject, predicate, object. For example <code>ex:C15 ex:containsMaterial ex:Lead .</code> or <code>ex:Lead ex:casNumber "7439-92-1" .</code></p></details>
+    <details><summary>3. What is the difference between rdfs:subClassOf and rdf:type?</summary>
+      <p><code>rdf:type</code> says an individual belongs to a class (P01 is a Smartphone). <code>rdfs:subClassOf</code> relates two classes (every Smartphone is a Device). Combined, a reasoner concludes P01 is a Device.</p></details>
+    <details><summary>4. If the graph does not say a product contains mercury, does that mean it does not?</summary>
+      <p>No. Under the open-world assumption, missing information is unknown. SQL works the other way: a row that is not there is treated as false. To state “contains no mercury” in RDF you have to say it explicitly.</p></details>
+    <details><summary>5. Why did the bill with 99 monitors save nothing at all?</summary>
+      <p>All inserts ran in one transaction. When the stock check failed, the transaction rolled back, so even the valid phone line and the bill header were undone. That keeps the database consistent.</p></details>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var KEY = "night1-tasks";
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.task input[type="checkbox"]'));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
+  function render(){
+    var done = 0;
+    boxes.forEach(function(b){ b.closest(".task").classList.toggle("is-done", b.checked); if (b.checked) done++; });
+    document.getElementById("bar").style.width = (done / boxes.length * 100) + "%";
+    document.getElementById("count").textContent = done + " / " + boxes.length + " done";
+  }
+  boxes.forEach(function(b){
+    b.checked = !!saved[b.id];
+    b.addEventListener("change", function(){
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      render();
+    });
+  });
+  render();
+})();
+</script>

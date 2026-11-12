@@ -1,0 +1,131 @@
+@prefix eshop: <http://example.org/eshop#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# The vocabulary of the shop: which kinds of things exist (classes) and how
+# they can be linked (properties). The actual products live in data.ttl.
+
+<http://example.org/eshop> a owl:Ontology ;
+    rdfs:label "Electronics shop ontology" ;
+    rdfs:comment "Products, their components and materials, with hazard and critical-raw-material classes for circular-economy questions." ;
+    owl:versionInfo "0.1" .
+
+
+# ---------- classes ----------
+
+eshop:Product      a owl:Class ; rdfs:label "Product" ;
+    rdfs:comment "Something the shop sells, new or refurbished." .
+eshop:Component    a owl:Class ; rdfs:label "Component" ;
+    rdfs:comment "A part built into a product, such as a battery or a display." .
+eshop:Material     a owl:Class ; rdfs:label "Material" ;
+    rdfs:comment "A substance a component is made of, identified by its CAS number." .
+eshop:Manufacturer a owl:Class ; rdfs:label "Manufacturer" .
+eshop:Customer     a owl:Class ; rdfs:label "Customer" .
+eshop:Bill         a owl:Class ; rdfs:label "Bill" .
+eshop:BillLine     a owl:Class ; rdfs:label "Bill line" ;
+    rdfs:comment "One product on a bill, with quantity and the price at the time of sale." .
+
+eshop:HazardousMaterial a owl:Class ; rdfs:subClassOf eshop:Material ;
+    rdfs:label "Hazardous material" ;
+    rdfs:comment "Restricted under RoHS or classified as hazardous under CLP." .
+eshop:CriticalRawMaterial a owl:Class ; rdfs:subClassOf eshop:Material ;
+    rdfs:label "Critical raw material" ;
+    rdfs:comment "On the EU list of critical raw materials." .
+
+# These two "qualified relation" classes exist because a plain triple cannot
+# carry a number. "P01 hasPart C25" is a triple, but "three times" needs a node.
+eshop:PartUsage a owl:Class ; rdfs:label "Part usage" ;
+    rdfs:comment "One component used in one product, with the quantity." .
+eshop:MaterialContent a owl:Class ; rdfs:label "Material content" ;
+    rdfs:comment "One material in one component, with the mass in grams." .
+
+# Defined classes. Nobody types a product as hazardous by hand: a reasoner
+# works it out from the definition (see kg/reason.py).
+eshop:HazardousComponent a owl:Class ; rdfs:label "Hazardous component" ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            eshop:Component
+            [ a owl:Restriction ;
+              owl:onProperty eshop:containsMaterial ;
+              owl:someValuesFrom eshop:HazardousMaterial ]
+        )
+    ] .
+
+eshop:HazardousProduct a owl:Class ; rdfs:label "Hazardous product" ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            eshop:Product
+            [ a owl:Restriction ;
+              owl:onProperty eshop:containsMaterial ;
+              owl:someValuesFrom eshop:HazardousMaterial ]
+        )
+    ] .
+
+
+# ---------- object properties (link two things) ----------
+
+eshop:hasPart a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:label "has part" ;
+    rdfs:comment "Transitive: a part of a part is also a part." ;
+    owl:inverseOf eshop:partOf .
+eshop:partOf a owl:ObjectProperty ; rdfs:label "part of" .
+
+# No rdfs:domain here on purpose. A domain is not a check, it is an inference
+# rule: with domain Component, every product that contains a material would be
+# inferred to be a Component.
+eshop:containsMaterial a owl:ObjectProperty ;
+    rdfs:label "contains material" ;
+    rdfs:range eshop:Material ;
+    # If X has part Y and Y contains material M, then X contains material M.
+    owl:propertyChainAxiom ( eshop:hasPart eshop:containsMaterial ) .
+
+eshop:manufacturedBy a owl:ObjectProperty ; rdfs:label "manufactured by" ;
+    rdfs:range eshop:Manufacturer .
+
+eshop:hasPartUsage a owl:ObjectProperty ; rdfs:label "has part usage" ;
+    rdfs:domain eshop:Product ; rdfs:range eshop:PartUsage .
+eshop:usedComponent a owl:ObjectProperty ; rdfs:label "used component" ;
+    rdfs:domain eshop:PartUsage ; rdfs:range eshop:Component .
+
+eshop:hasMaterialContent a owl:ObjectProperty ; rdfs:label "has material content" ;
+    rdfs:domain eshop:Component ; rdfs:range eshop:MaterialContent .
+eshop:material a owl:ObjectProperty ; rdfs:label "material" ;
+    rdfs:domain eshop:MaterialContent ; rdfs:range eshop:Material .
+
+eshop:billedTo a owl:ObjectProperty ; rdfs:label "billed to" ;
+    rdfs:domain eshop:Bill ; rdfs:range eshop:Customer .
+eshop:hasLine a owl:ObjectProperty ; rdfs:label "has line" ;
+    rdfs:domain eshop:Bill ; rdfs:range eshop:BillLine .
+eshop:soldProduct a owl:ObjectProperty ; rdfs:label "sold product" ;
+    rdfs:domain eshop:BillLine ; rdfs:range eshop:Product .
+
+
+# ---------- datatype properties (link a thing to a value) ----------
+
+eshop:category      a owl:DatatypeProperty ; rdfs:domain eshop:Product ; rdfs:range xsd:string .
+eshop:itemCondition a owl:DatatypeProperty ; rdfs:domain eshop:Product ; rdfs:range xsd:string ;
+    rdfs:comment "Either 'new' or 'refurbished'." .
+eshop:unitPrice     a owl:DatatypeProperty ; rdfs:range xsd:decimal ;
+    rdfs:comment "Euro. On a product it is the current price, on a bill line the price paid." .
+eshop:stockQty      a owl:DatatypeProperty ; rdfs:domain eshop:Product ; rdfs:range xsd:integer .
+eshop:releaseYear   a owl:DatatypeProperty ; rdfs:domain eshop:Product ; rdfs:range xsd:integer .
+
+eshop:componentType a owl:DatatypeProperty ; rdfs:domain eshop:Component ; rdfs:range xsd:string .
+eshop:recyclable    a owl:DatatypeProperty ; rdfs:domain eshop:Component ; rdfs:range xsd:boolean .
+
+eshop:casNumber     a owl:DatatypeProperty ; rdfs:domain eshop:Material ; rdfs:range xsd:string .
+eshop:regulation    a owl:DatatypeProperty ; rdfs:domain eshop:Material ; rdfs:range xsd:string .
+
+eshop:country       a owl:DatatypeProperty ; rdfs:domain eshop:Manufacturer ; rdfs:range xsd:string ;
+    rdfs:comment "ISO 3166-1 alpha-2 code." .
+eshop:city          a owl:DatatypeProperty ; rdfs:domain eshop:Customer ; rdfs:range xsd:string .
+eshop:billDate      a owl:DatatypeProperty ; rdfs:domain eshop:Bill ; rdfs:range xsd:date .
+
+eshop:quantity      a owl:DatatypeProperty ; rdfs:range xsd:integer ;
+    rdfs:comment "Units, on a part usage or a bill line." .
+eshop:massGrams     a owl:DatatypeProperty ; rdfs:domain eshop:MaterialContent ; rdfs:range xsd:decimal ;
+    rdfs:comment "Grams of the material in one unit of the component." .

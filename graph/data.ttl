@@ -1,0 +1,1731 @@
+@prefix eshop: <http://example.org/eshop#> .
+@prefix ex: <http://example.org/eshop/id/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:bill1 a eshop:Bill ;
+    eshop:billDate "2026-09-03"^^xsd:date ;
+    eshop:billedTo ex:customer1 ;
+    eshop:hasLine ex:bill1_P01,
+        ex:bill1_P14 .
+
+ex:bill10 a eshop:Bill ;
+    eshop:billDate "2026-11-02"^^xsd:date ;
+    eshop:billedTo ex:customer2 ;
+    eshop:hasLine ex:bill10_P02,
+        ex:bill10_P16 .
+
+ex:bill11 a eshop:Bill ;
+    eshop:billDate "2026-11-06"^^xsd:date ;
+    eshop:billedTo ex:customer4 ;
+    eshop:hasLine ex:bill11_P13,
+        ex:bill11_P20 .
+
+ex:bill12 a eshop:Bill ;
+    eshop:billDate "2026-11-10"^^xsd:date ;
+    eshop:billedTo ex:customer7 ;
+    eshop:hasLine ex:bill12_P09,
+        ex:bill12_P11 .
+
+ex:bill2 a eshop:Bill ;
+    eshop:billDate "2026-09-11"^^xsd:date ;
+    eshop:billedTo ex:customer2 ;
+    eshop:hasLine ex:bill2_P05,
+        ex:bill2_P10 .
+
+ex:bill3 a eshop:Bill ;
+    eshop:billDate "2026-09-19"^^xsd:date ;
+    eshop:billedTo ex:customer3 ;
+    eshop:hasLine ex:bill3_P12 .
+
+ex:bill4 a eshop:Bill ;
+    eshop:billDate "2026-09-28"^^xsd:date ;
+    eshop:billedTo ex:customer4 ;
+    eshop:hasLine ex:bill4_P11,
+        ex:bill4_P18 .
+
+ex:bill5 a eshop:Bill ;
+    eshop:billDate "2026-10-02"^^xsd:date ;
+    eshop:billedTo ex:customer5 ;
+    eshop:hasLine ex:bill5_P08,
+        ex:bill5_P16 .
+
+ex:bill6 a eshop:Bill ;
+    eshop:billDate "2026-10-09"^^xsd:date ;
+    eshop:billedTo ex:customer1 ;
+    eshop:hasLine ex:bill6_P15,
+        ex:bill6_P17 .
+
+ex:bill7 a eshop:Bill ;
+    eshop:billDate "2026-10-15"^^xsd:date ;
+    eshop:billedTo ex:customer6 ;
+    eshop:hasLine ex:bill7_P03,
+        ex:bill7_P07 .
+
+ex:bill8 a eshop:Bill ;
+    eshop:billDate "2026-10-21"^^xsd:date ;
+    eshop:billedTo ex:customer7 ;
+    eshop:hasLine ex:bill8_P04,
+        ex:bill8_P12,
+        ex:bill8_P14 .
+
+ex:bill9 a eshop:Bill ;
+    eshop:billDate "2026-10-30"^^xsd:date ;
+    eshop:billedTo ex:customer8 ;
+    eshop:hasLine ex:bill9_P06,
+        ex:bill9_P19 .
+
+ex:C01_M01 a eshop:MaterialContent ;
+    eshop:massGrams 18.0 ;
+    eshop:material ex:M01 .
+
+ex:C01_M03 a eshop:MaterialContent ;
+    eshop:massGrams 10.0 ;
+    eshop:material ex:M03 .
+
+ex:C01_M04 a eshop:MaterialContent ;
+    eshop:massGrams 6.0 ;
+    eshop:material ex:M04 .
+
+ex:C01_M05 a eshop:MaterialContent ;
+    eshop:massGrams 5.0 ;
+    eshop:material ex:M05 .
+
+ex:C02_M01 a eshop:MaterialContent ;
+    eshop:massGrams 12.0 ;
+    eshop:material ex:M01 .
+
+ex:C02_M03 a eshop:MaterialContent ;
+    eshop:massGrams 7.0 ;
+    eshop:material ex:M03 .
+
+ex:C02_M04 a eshop:MaterialContent ;
+    eshop:massGrams 4.0 ;
+    eshop:material ex:M04 .
+
+ex:C02_M05 a eshop:MaterialContent ;
+    eshop:massGrams 3.0 ;
+    eshop:material ex:M05 .
+
+ex:C03_M01 a eshop:MaterialContent ;
+    eshop:massGrams 95.0 ;
+    eshop:material ex:M01 .
+
+ex:C03_M03 a eshop:MaterialContent ;
+    eshop:massGrams 55.0 ;
+    eshop:material ex:M03 .
+
+ex:C03_M04 a eshop:MaterialContent ;
+    eshop:massGrams 25.0 ;
+    eshop:material ex:M04 .
+
+ex:C03_M05 a eshop:MaterialContent ;
+    eshop:massGrams 30.0 ;
+    eshop:material ex:M05 .
+
+ex:C03_M12 a eshop:MaterialContent ;
+    eshop:massGrams 20.0 ;
+    eshop:material ex:M12 .
+
+ex:C04_M02 a eshop:MaterialContent ;
+    eshop:massGrams 110.0 ;
+    eshop:material ex:M02 .
+
+ex:C04_M03 a eshop:MaterialContent ;
+    eshop:massGrams 60.0 ;
+    eshop:material ex:M03 .
+
+ex:C04_M04 a eshop:MaterialContent ;
+    eshop:massGrams 30.0 ;
+    eshop:material ex:M04 .
+
+ex:C04_M05 a eshop:MaterialContent ;
+    eshop:massGrams 35.0 ;
+    eshop:material ex:M05 .
+
+ex:C05_M04 a eshop:MaterialContent ;
+    eshop:massGrams 3.0 ;
+    eshop:material ex:M04 .
+
+ex:C05_M10 a eshop:MaterialContent ;
+    eshop:massGrams 18.0 ;
+    eshop:material ex:M10 .
+
+ex:C05_M12 a eshop:MaterialContent ;
+    eshop:massGrams 22.0 ;
+    eshop:material ex:M12 .
+
+ex:C06_M01 a eshop:MaterialContent ;
+    eshop:massGrams 1.2 ;
+    eshop:material ex:M01 .
+
+ex:C06_M03 a eshop:MaterialContent ;
+    eshop:massGrams 0.7 ;
+    eshop:material ex:M03 .
+
+ex:C06_M04 a eshop:MaterialContent ;
+    eshop:massGrams 0.4 ;
+    eshop:material ex:M04 .
+
+ex:C07_M15 a eshop:MaterialContent ;
+    eshop:massGrams 0.05 ;
+    eshop:material ex:M15 .
+
+ex:C07_M16 a eshop:MaterialContent ;
+    eshop:massGrams 0.5 ;
+    eshop:material ex:M16 .
+
+ex:C07_M19 a eshop:MaterialContent ;
+    eshop:massGrams 8.0 ;
+    eshop:material ex:M19 .
+
+ex:C08_M05 a eshop:MaterialContent ;
+    eshop:massGrams 20.0 ;
+    eshop:material ex:M05 .
+
+ex:C08_M15 a eshop:MaterialContent ;
+    eshop:massGrams 0.1 ;
+    eshop:material ex:M15 .
+
+ex:C08_M19 a eshop:MaterialContent ;
+    eshop:massGrams 60.0 ;
+    eshop:material ex:M19 .
+
+ex:C09_M05 a eshop:MaterialContent ;
+    eshop:massGrams 400.0 ;
+    eshop:material ex:M05 .
+
+ex:C09_M15 a eshop:MaterialContent ;
+    eshop:massGrams 0.3 ;
+    eshop:material ex:M15 .
+
+ex:C09_M17 a eshop:MaterialContent ;
+    eshop:massGrams 300.0 ;
+    eshop:material ex:M17 .
+
+ex:C09_M19 a eshop:MaterialContent ;
+    eshop:massGrams 900.0 ;
+    eshop:material ex:M19 .
+
+ex:C10_M05 a eshop:MaterialContent ;
+    eshop:massGrams 350.0 ;
+    eshop:material ex:M05 .
+
+ex:C10_M09 a eshop:MaterialContent ;
+    eshop:massGrams 0.004 ;
+    eshop:material ex:M09 .
+
+ex:C10_M15 a eshop:MaterialContent ;
+    eshop:massGrams 0.2 ;
+    eshop:material ex:M15 .
+
+ex:C10_M19 a eshop:MaterialContent ;
+    eshop:massGrams 700.0 ;
+    eshop:material ex:M19 .
+
+ex:C11_M17 a eshop:MaterialContent ;
+    eshop:massGrams 5.0 ;
+    eshop:material ex:M17 .
+
+ex:C11_M19 a eshop:MaterialContent ;
+    eshop:massGrams 15.0 ;
+    eshop:material ex:M19 .
+
+ex:C12_M04 a eshop:MaterialContent ;
+    eshop:massGrams 8.0 ;
+    eshop:material ex:M04 .
+
+ex:C12_M06 a eshop:MaterialContent ;
+    eshop:massGrams 0.03 ;
+    eshop:material ex:M06 .
+
+ex:C12_M07 a eshop:MaterialContent ;
+    eshop:massGrams 1.5 ;
+    eshop:material ex:M07 .
+
+ex:C12_M16 a eshop:MaterialContent ;
+    eshop:massGrams 1.0 ;
+    eshop:material ex:M16 .
+
+ex:C12_M20 a eshop:MaterialContent ;
+    eshop:massGrams 0.3 ;
+    eshop:material ex:M20 .
+
+ex:C13_M04 a eshop:MaterialContent ;
+    eshop:massGrams 40.0 ;
+    eshop:material ex:M04 .
+
+ex:C13_M06 a eshop:MaterialContent ;
+    eshop:massGrams 0.2 ;
+    eshop:material ex:M06 .
+
+ex:C13_M07 a eshop:MaterialContent ;
+    eshop:massGrams 6.0 ;
+    eshop:material ex:M07 .
+
+ex:C13_M16 a eshop:MaterialContent ;
+    eshop:massGrams 4.0 ;
+    eshop:material ex:M16 .
+
+ex:C13_M20 a eshop:MaterialContent ;
+    eshop:massGrams 1.0 ;
+    eshop:material ex:M20 .
+
+ex:C14_M04 a eshop:MaterialContent ;
+    eshop:massGrams 3.0 ;
+    eshop:material ex:M04 .
+
+ex:C14_M06 a eshop:MaterialContent ;
+    eshop:massGrams 0.01 ;
+    eshop:material ex:M06 .
+
+ex:C14_M07 a eshop:MaterialContent ;
+    eshop:massGrams 0.5 ;
+    eshop:material ex:M07 .
+
+ex:C14_M16 a eshop:MaterialContent ;
+    eshop:massGrams 0.3 ;
+    eshop:material ex:M16 .
+
+ex:C15_M04 a eshop:MaterialContent ;
+    eshop:massGrams 30.0 ;
+    eshop:material ex:M04 .
+
+ex:C15_M06 a eshop:MaterialContent ;
+    eshop:massGrams 0.1 ;
+    eshop:material ex:M06 .
+
+ex:C15_M07 a eshop:MaterialContent ;
+    eshop:massGrams 6.0 ;
+    eshop:material ex:M07 .
+
+ex:C15_M08 a eshop:MaterialContent ;
+    eshop:massGrams 4.0 ;
+    eshop:material ex:M08 .
+
+ex:C16_M05 a eshop:MaterialContent ;
+    eshop:massGrams 120.0 ;
+    eshop:material ex:M05 .
+
+ex:C17_M17 a eshop:MaterialContent ;
+    eshop:massGrams 40.0 ;
+    eshop:material ex:M17 .
+
+ex:C18_M11 a eshop:MaterialContent ;
+    eshop:massGrams 30.0 ;
+    eshop:material ex:M11 .
+
+ex:C18_M18 a eshop:MaterialContent ;
+    eshop:massGrams 600.0 ;
+    eshop:material ex:M18 .
+
+ex:C19_M19 a eshop:MaterialContent ;
+    eshop:massGrams 12.0 ;
+    eshop:material ex:M19 .
+
+ex:C20_M04 a eshop:MaterialContent ;
+    eshop:massGrams 0.5 ;
+    eshop:material ex:M04 .
+
+ex:C20_M13 a eshop:MaterialContent ;
+    eshop:massGrams 0.8 ;
+    eshop:material ex:M13 .
+
+ex:C21_M04 a eshop:MaterialContent ;
+    eshop:massGrams 12.0 ;
+    eshop:material ex:M04 .
+
+ex:C21_M06 a eshop:MaterialContent ;
+    eshop:massGrams 0.01 ;
+    eshop:material ex:M06 .
+
+ex:C22_M04 a eshop:MaterialContent ;
+    eshop:massGrams 5.0 ;
+    eshop:material ex:M04 .
+
+ex:C22_M07 a eshop:MaterialContent ;
+    eshop:massGrams 0.3 ;
+    eshop:material ex:M07 .
+
+ex:C22_M16 a eshop:MaterialContent ;
+    eshop:massGrams 0.5 ;
+    eshop:material ex:M16 .
+
+ex:C22_M21 a eshop:MaterialContent ;
+    eshop:massGrams 0.02 ;
+    eshop:material ex:M21 .
+
+ex:C23_M14 a eshop:MaterialContent ;
+    eshop:massGrams 0.4 ;
+    eshop:material ex:M14 .
+
+ex:C24_M04 a eshop:MaterialContent ;
+    eshop:massGrams 0.5 ;
+    eshop:material ex:M04 .
+
+ex:C24_M13 a eshop:MaterialContent ;
+    eshop:massGrams 0.3 ;
+    eshop:material ex:M13 .
+
+ex:C25_M13 a eshop:MaterialContent ;
+    eshop:massGrams 0.1 ;
+    eshop:material ex:M13 .
+
+ex:C25_M16 a eshop:MaterialContent ;
+    eshop:massGrams 0.3 ;
+    eshop:material ex:M16 .
+
+ex:C25_M19 a eshop:MaterialContent ;
+    eshop:massGrams 0.5 ;
+    eshop:material ex:M19 .
+
+ex:C26_M05 a eshop:MaterialContent ;
+    eshop:massGrams 60.0 ;
+    eshop:material ex:M05 .
+
+ex:C26_M15 a eshop:MaterialContent ;
+    eshop:massGrams 0.15 ;
+    eshop:material ex:M15 .
+
+ex:C26_M19 a eshop:MaterialContent ;
+    eshop:massGrams 150.0 ;
+    eshop:material ex:M19 .
+
+ex:C27_M15 a eshop:MaterialContent ;
+    eshop:massGrams 0.01 ;
+    eshop:material ex:M15 .
+
+ex:C27_M16 a eshop:MaterialContent ;
+    eshop:massGrams 0.1 ;
+    eshop:material ex:M16 .
+
+ex:C27_M19 a eshop:MaterialContent ;
+    eshop:massGrams 1.0 ;
+    eshop:material ex:M19 .
+
+ex:P01 a eshop:Product ;
+    rdfs:label "Voltaris Pulse 6" ;
+    eshop:category "Smartphone" ;
+    eshop:hasPart ex:C01,
+        ex:C07,
+        ex:C12,
+        ex:C16,
+        ex:C19,
+        ex:C23,
+        ex:C24,
+        ex:C25 ;
+    eshop:hasPartUsage ex:P01_C01,
+        ex:P01_C07,
+        ex:P01_C12,
+        ex:P01_C16,
+        ex:P01_C19,
+        ex:P01_C23,
+        ex:P01_C24,
+        ex:P01_C25 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF01 ;
+    eshop:releaseYear 2024 ;
+    eshop:stockQty 25 ;
+    eshop:unitPrice 599.0 .
+
+ex:P01_C01 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C01 .
+
+ex:P01_C07 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C07 .
+
+ex:P01_C12 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C12 .
+
+ex:P01_C16 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C16 .
+
+ex:P01_C19 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C19 .
+
+ex:P01_C23 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C23 .
+
+ex:P01_C24 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C24 .
+
+ex:P01_C25 a eshop:PartUsage ;
+    eshop:quantity 3 ;
+    eshop:usedComponent ex:C25 .
+
+ex:P02 a eshop:Product ;
+    rdfs:label "Voltaris Pulse 6 Lite" ;
+    eshop:category "Smartphone" ;
+    eshop:hasPart ex:C02,
+        ex:C07,
+        ex:C12,
+        ex:C17,
+        ex:C19,
+        ex:C24,
+        ex:C25 ;
+    eshop:hasPartUsage ex:P02_C02,
+        ex:P02_C07,
+        ex:P02_C12,
+        ex:P02_C17,
+        ex:P02_C19,
+        ex:P02_C24,
+        ex:P02_C25 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF01 ;
+    eshop:releaseYear 2023 ;
+    eshop:stockQty 40 ;
+    eshop:unitPrice 349.0 .
+
+ex:P02_C02 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C02 .
+
+ex:P02_C07 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C07 .
+
+ex:P02_C12 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C12 .
+
+ex:P02_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P02_C19 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C19 .
+
+ex:P02_C24 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C24 .
+
+ex:P02_C25 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C25 .
+
+ex:P03 a eshop:Product ;
+    rdfs:label "Kestrel K3" ;
+    eshop:category "Smartphone" ;
+    eshop:hasPart ex:C02,
+        ex:C07,
+        ex:C12,
+        ex:C17,
+        ex:C19,
+        ex:C25 ;
+    eshop:hasPartUsage ex:P03_C02,
+        ex:P03_C07,
+        ex:P03_C12,
+        ex:P03_C17,
+        ex:P03_C19,
+        ex:P03_C25 ;
+    eshop:itemCondition "refurbished" ;
+    eshop:manufacturedBy ex:MF03 ;
+    eshop:releaseYear 2022 ;
+    eshop:stockQty 8 ;
+    eshop:unitPrice 229.0 .
+
+ex:P03_C02 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C02 .
+
+ex:P03_C07 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C07 .
+
+ex:P03_C12 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C12 .
+
+ex:P03_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P03_C19 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C19 .
+
+ex:P03_C25 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C25 .
+
+ex:P04 a eshop:Product ;
+    rdfs:label "Sunda Nova S" ;
+    eshop:category "Smartphone" ;
+    eshop:hasPart ex:C01,
+        ex:C07,
+        ex:C12,
+        ex:C16,
+        ex:C19,
+        ex:C23,
+        ex:C24,
+        ex:C25 ;
+    eshop:hasPartUsage ex:P04_C01,
+        ex:P04_C07,
+        ex:P04_C12,
+        ex:P04_C16,
+        ex:P04_C19,
+        ex:P04_C23,
+        ex:P04_C24,
+        ex:P04_C25 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF04 ;
+    eshop:releaseYear 2025 ;
+    eshop:stockQty 15 ;
+    eshop:unitPrice 799.0 .
+
+ex:P04_C01 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C01 .
+
+ex:P04_C07 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C07 .
+
+ex:P04_C12 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C12 .
+
+ex:P04_C16 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C16 .
+
+ex:P04_C19 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C19 .
+
+ex:P04_C23 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C23 .
+
+ex:P04_C24 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C24 .
+
+ex:P04_C25 a eshop:PartUsage ;
+    eshop:quantity 3 ;
+    eshop:usedComponent ex:C25 .
+
+ex:P05 a eshop:Product ;
+    rdfs:label "Nordlicht Book 14" ;
+    eshop:category "Laptop" ;
+    eshop:hasPart ex:C03,
+        ex:C13,
+        ex:C16,
+        ex:C23,
+        ex:C26 ;
+    eshop:hasPartUsage ex:P05_C03,
+        ex:P05_C13,
+        ex:P05_C16,
+        ex:P05_C23,
+        ex:P05_C26 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF02 ;
+    eshop:releaseYear 2024 ;
+    eshop:stockQty 10 ;
+    eshop:unitPrice 1099.0 .
+
+ex:P05_C03 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C03 .
+
+ex:P05_C13 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C13 .
+
+ex:P05_C16 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C16 .
+
+ex:P05_C23 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C23 .
+
+ex:P05_C26 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C26 .
+
+ex:P06 a eshop:Product ;
+    rdfs:label "Kestrel Work 15" ;
+    eshop:category "Laptop" ;
+    eshop:hasPart ex:C03,
+        ex:C13,
+        ex:C17,
+        ex:C23,
+        ex:C26 ;
+    eshop:hasPartUsage ex:P06_C03,
+        ex:P06_C13,
+        ex:P06_C17,
+        ex:P06_C23,
+        ex:P06_C26 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF03 ;
+    eshop:releaseYear 2023 ;
+    eshop:stockQty 12 ;
+    eshop:unitPrice 849.0 .
+
+ex:P06_C03 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C03 .
+
+ex:P06_C13 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C13 .
+
+ex:P06_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P06_C23 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C23 .
+
+ex:P06_C26 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C26 .
+
+ex:P07 a eshop:Product ;
+    rdfs:label "Nordlicht Book 13" ;
+    eshop:category "Laptop" ;
+    eshop:hasPart ex:C03,
+        ex:C13,
+        ex:C16,
+        ex:C26 ;
+    eshop:hasPartUsage ex:P07_C03,
+        ex:P07_C13,
+        ex:P07_C16,
+        ex:P07_C26 ;
+    eshop:itemCondition "refurbished" ;
+    eshop:manufacturedBy ex:MF02 ;
+    eshop:releaseYear 2015 ;
+    eshop:stockQty 4 ;
+    eshop:unitPrice 299.0 .
+
+ex:P07_C03 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C03 .
+
+ex:P07_C13 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C13 .
+
+ex:P07_C16 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C16 .
+
+ex:P07_C26 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C26 .
+
+ex:P08 a eshop:Product ;
+    rdfs:label "Sunda Tab 11" ;
+    eshop:category "Tablet" ;
+    eshop:hasPart ex:C01,
+        ex:C08,
+        ex:C12,
+        ex:C16,
+        ex:C19 ;
+    eshop:hasPartUsage ex:P08_C01,
+        ex:P08_C08,
+        ex:P08_C12,
+        ex:P08_C16,
+        ex:P08_C19 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF04 ;
+    eshop:releaseYear 2024 ;
+    eshop:stockQty 18 ;
+    eshop:unitPrice 449.0 .
+
+ex:P08_C01 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C01 .
+
+ex:P08_C08 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C08 .
+
+ex:P08_C12 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C12 .
+
+ex:P08_C16 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C16 .
+
+ex:P08_C19 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C19 .
+
+ex:P09 a eshop:Product ;
+    rdfs:label "Kestrel Slate 10" ;
+    eshop:category "Tablet" ;
+    eshop:hasPart ex:C01,
+        ex:C08,
+        ex:C12,
+        ex:C17 ;
+    eshop:hasPartUsage ex:P09_C01,
+        ex:P09_C08,
+        ex:P09_C12,
+        ex:P09_C17 ;
+    eshop:itemCondition "refurbished" ;
+    eshop:manufacturedBy ex:MF03 ;
+    eshop:releaseYear 2021 ;
+    eshop:stockQty 6 ;
+    eshop:unitPrice 179.0 .
+
+ex:P09_C01 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C01 .
+
+ex:P09_C08 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C08 .
+
+ex:P09_C12 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C12 .
+
+ex:P09_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P10 a eshop:Product ;
+    rdfs:label "Brightline View 24" ;
+    eshop:category "Monitor" ;
+    eshop:hasPart ex:C09,
+        ex:C14,
+        ex:C17 ;
+    eshop:hasPartUsage ex:P10_C09,
+        ex:P10_C14,
+        ex:P10_C17 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF05 ;
+    eshop:releaseYear 2023 ;
+    eshop:stockQty 20 ;
+    eshop:unitPrice 189.0 .
+
+ex:P10_C09 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C09 .
+
+ex:P10_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P10_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P11_C10 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C10 .
+
+ex:P11_C15 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C15 .
+
+ex:P11_C18 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C18 .
+
+ex:P12_C06 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C06 .
+
+ex:P12_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P12_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P12_C20 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C20 .
+
+ex:P13 a eshop:Product ;
+    rdfs:label "Nordlicht Studio" ;
+    eshop:category "Headphones" ;
+    eshop:hasPart ex:C02,
+        ex:C14,
+        ex:C17,
+        ex:C20 ;
+    eshop:hasPartUsage ex:P13_C02,
+        ex:P13_C14,
+        ex:P13_C17,
+        ex:P13_C20 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF02 ;
+    eshop:releaseYear 2022 ;
+    eshop:stockQty 14 ;
+    eshop:unitPrice 199.0 .
+
+ex:P13_C02 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C02 .
+
+ex:P13_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P13_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P13_C20 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C20 .
+
+ex:P14_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P14_C21 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C21 .
+
+ex:P14_C22 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C22 .
+
+ex:P15 a eshop:Product ;
+    rdfs:label "Brightline 20W Charger" ;
+    eshop:category "Charger" ;
+    eshop:hasPart ex:C14,
+        ex:C17,
+        ex:C21 ;
+    eshop:hasPartUsage ex:P15_C14,
+        ex:P15_C17,
+        ex:P15_C21 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF05 ;
+    eshop:releaseYear 2020 ;
+    eshop:stockQty 80 ;
+    eshop:unitPrice 19.0 .
+
+ex:P15_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P15_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P15_C21 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C21 .
+
+ex:P16_C04 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C04 .
+
+ex:P16_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P16_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P16_C21 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C21 .
+
+ex:P17 a eshop:Product ;
+    rdfs:label "Kestrel Fit 2" ;
+    eshop:category "Smartwatch" ;
+    eshop:hasPart ex:C06,
+        ex:C14,
+        ex:C16,
+        ex:C24,
+        ex:C27 ;
+    eshop:hasPartUsage ex:P17_C06,
+        ex:P17_C14,
+        ex:P17_C16,
+        ex:P17_C24,
+        ex:P17_C27 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF03 ;
+    eshop:releaseYear 2024 ;
+    eshop:stockQty 22 ;
+    eshop:unitPrice 249.0 .
+
+ex:P17_C06 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C06 .
+
+ex:P17_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P17_C16 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C16 .
+
+ex:P17_C24 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C24 .
+
+ex:P17_C27 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C27 .
+
+ex:P18 a eshop:Product ;
+    rdfs:label "Nordlicht DECT Phone" ;
+    eshop:category "Cordless phone" ;
+    eshop:hasPart ex:C05,
+        ex:C15,
+        ex:C18 ;
+    eshop:hasPartUsage ex:P18_C05,
+        ex:P18_C15,
+        ex:P18_C18 ;
+    eshop:itemCondition "refurbished" ;
+    eshop:manufacturedBy ex:MF02 ;
+    eshop:releaseYear 2008 ;
+    eshop:stockQty 5 ;
+    eshop:unitPrice 25.0 .
+
+ex:P18_C05 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C05 .
+
+ex:P18_C15 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C15 .
+
+ex:P18_C18 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C18 .
+
+ex:P19 a eshop:Product ;
+    rdfs:label "Brightline Boom" ;
+    eshop:category "Speaker" ;
+    eshop:hasPart ex:C02,
+        ex:C14,
+        ex:C17,
+        ex:C20 ;
+    eshop:hasPartUsage ex:P19_C02,
+        ex:P19_C14,
+        ex:P19_C17,
+        ex:P19_C20 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF05 ;
+    eshop:releaseYear 2023 ;
+    eshop:stockQty 30 ;
+    eshop:unitPrice 89.0 .
+
+ex:P19_C02 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C02 .
+
+ex:P19_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P19_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:P19_C20 a eshop:PartUsage ;
+    eshop:quantity 2 ;
+    eshop:usedComponent ex:C20 .
+
+ex:P20 a eshop:Product ;
+    rdfs:label "Sunda Read 6" ;
+    eshop:category "E-reader" ;
+    eshop:hasPart ex:C02,
+        ex:C11,
+        ex:C14,
+        ex:C17 ;
+    eshop:hasPartUsage ex:P20_C02,
+        ex:P20_C11,
+        ex:P20_C14,
+        ex:P20_C17 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF04 ;
+    eshop:releaseYear 2022 ;
+    eshop:stockQty 16 ;
+    eshop:unitPrice 119.0 .
+
+ex:P20_C02 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C02 .
+
+ex:P20_C11 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C11 .
+
+ex:P20_C14 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C14 .
+
+ex:P20_C17 a eshop:PartUsage ;
+    eshop:quantity 1 ;
+    eshop:usedComponent ex:C17 .
+
+ex:bill10_P02 a eshop:BillLine ;
+    eshop:quantity 2 ;
+    eshop:soldProduct ex:P02 ;
+    eshop:unitPrice 349.0 .
+
+ex:bill10_P16 a eshop:BillLine ;
+    eshop:quantity 2 ;
+    eshop:soldProduct ex:P16 ;
+    eshop:unitPrice 39.0 .
+
+ex:bill11_P13 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P13 ;
+    eshop:unitPrice 199.0 .
+
+ex:bill11_P20 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P20 ;
+    eshop:unitPrice 119.0 .
+
+ex:bill12_P09 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P09 ;
+    eshop:unitPrice 179.0 .
+
+ex:bill12_P11 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P11 ;
+    eshop:unitPrice 39.0 .
+
+ex:bill1_P01 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P01 ;
+    eshop:unitPrice 599.0 .
+
+ex:bill1_P14 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P14 ;
+    eshop:unitPrice 49.0 .
+
+ex:bill2_P05 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P05 ;
+    eshop:unitPrice 1099.0 .
+
+ex:bill2_P10 a eshop:BillLine ;
+    eshop:quantity 2 ;
+    eshop:soldProduct ex:P10 ;
+    eshop:unitPrice 189.0 .
+
+ex:bill3_P12 a eshop:BillLine ;
+    eshop:quantity 2 ;
+    eshop:soldProduct ex:P12 ;
+    eshop:unitPrice 129.0 .
+
+ex:bill4_P11 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P11 ;
+    eshop:unitPrice 39.0 .
+
+ex:bill4_P18 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P18 ;
+    eshop:unitPrice 25.0 .
+
+ex:bill5_P08 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P08 ;
+    eshop:unitPrice 449.0 .
+
+ex:bill5_P16 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P16 ;
+    eshop:unitPrice 39.0 .
+
+ex:bill6_P15 a eshop:BillLine ;
+    eshop:quantity 2 ;
+    eshop:soldProduct ex:P15 ;
+    eshop:unitPrice 19.0 .
+
+ex:bill6_P17 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P17 ;
+    eshop:unitPrice 249.0 .
+
+ex:bill7_P03 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P03 ;
+    eshop:unitPrice 229.0 .
+
+ex:bill7_P07 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P07 ;
+    eshop:unitPrice 299.0 .
+
+ex:bill8_P04 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P04 ;
+    eshop:unitPrice 799.0 .
+
+ex:bill8_P12 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P12 ;
+    eshop:unitPrice 129.0 .
+
+ex:bill8_P14 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P14 ;
+    eshop:unitPrice 49.0 .
+
+ex:bill9_P06 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P06 ;
+    eshop:unitPrice 849.0 .
+
+ex:bill9_P19 a eshop:BillLine ;
+    eshop:quantity 1 ;
+    eshop:soldProduct ex:P19 ;
+    eshop:unitPrice 89.0 .
+
+ex:customer3 a eshop:Customer ;
+    rdfs:label "Lea Schmitt" ;
+    eshop:city "St. Ingbert" .
+
+ex:customer5 a eshop:Customer ;
+    rdfs:label "Sofia Rossi" ;
+    eshop:city "Neunkirchen" .
+
+ex:customer6 a eshop:Customer ;
+    rdfs:label "Lukas Hoffmann" ;
+    eshop:city "Völklingen" .
+
+ex:customer8 a eshop:Customer ;
+    rdfs:label "Tom Klein" ;
+    eshop:city "Homburg" .
+
+ex:C04 a eshop:Component ;
+    rdfs:label "LiFePO4 cell pack 10000 mAh" ;
+    eshop:componentType "battery" ;
+    eshop:containsMaterial ex:M02,
+        ex:M03,
+        ex:M04,
+        ex:M05 ;
+    eshop:hasMaterialContent ex:C04_M02,
+        ex:C04_M03,
+        ex:C04_M04,
+        ex:C04_M05 ;
+    eshop:manufacturedBy ex:MF06 ;
+    eshop:recyclable true .
+
+ex:C05 a eshop:Component ;
+    rdfs:label "NiCd battery pack 2.4 V" ;
+    eshop:componentType "battery" ;
+    eshop:containsMaterial ex:M04,
+        ex:M10,
+        ex:M12 ;
+    eshop:hasMaterialContent ex:C05_M04,
+        ex:C05_M10,
+        ex:C05_M12 ;
+    eshop:manufacturedBy ex:MF06 ;
+    eshop:recyclable true .
+
+ex:C09 a eshop:Component ;
+    rdfs:label "LCD panel 24 in, LED backlight" ;
+    eshop:componentType "display" ;
+    eshop:containsMaterial ex:M05,
+        ex:M15,
+        ex:M17,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C09_M05,
+        ex:C09_M15,
+        ex:C09_M17,
+        ex:C09_M19 ;
+    eshop:manufacturedBy ex:MF07 ;
+    eshop:recyclable false .
+
+ex:C10 a eshop:Component ;
+    rdfs:label "LCD panel 19 in, CCFL backlight" ;
+    eshop:componentType "display" ;
+    eshop:containsMaterial ex:M05,
+        ex:M09,
+        ex:M15,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C10_M05,
+        ex:C10_M09,
+        ex:C10_M15,
+        ex:C10_M19 ;
+    eshop:manufacturedBy ex:MF07 ;
+    eshop:recyclable false .
+
+ex:C11 a eshop:Component ;
+    rdfs:label "E-ink display 6 in" ;
+    eshop:componentType "display" ;
+    eshop:containsMaterial ex:M17,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C11_M17,
+        ex:C11_M19 ;
+    eshop:manufacturedBy ex:MF07 ;
+    eshop:recyclable false .
+
+ex:C22 a eshop:Component ;
+    rdfs:label "GaN power stage" ;
+    eshop:componentType "power" ;
+    eshop:containsMaterial ex:M04,
+        ex:M07,
+        ex:M16,
+        ex:M21 ;
+    eshop:hasMaterialContent ex:C22_M04,
+        ex:C22_M07,
+        ex:C22_M16,
+        ex:C22_M21 ;
+    eshop:recyclable true .
+
+ex:C27 a eshop:Component ;
+    rdfs:label "OLED display 1.4 in" ;
+    eshop:componentType "display" ;
+    eshop:containsMaterial ex:M15,
+        ex:M16,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C27_M15,
+        ex:C27_M16,
+        ex:C27_M19 ;
+    eshop:manufacturedBy ex:MF07 ;
+    eshop:recyclable false .
+
+ex:M02 a eshop:CriticalRawMaterial,
+        eshop:Material ;
+    rdfs:label "Lithium iron phosphate" ;
+    eshop:casNumber "15365-14-7" .
+
+ex:M08 a eshop:HazardousMaterial,
+        eshop:Material ;
+    rdfs:label "Lead" ;
+    eshop:casNumber "7439-92-1" ;
+    eshop:regulation "RoHS 2011/65/EU, max 0.1 % by weight" .
+
+ex:M09 a eshop:HazardousMaterial,
+        eshop:Material ;
+    rdfs:label "Mercury" ;
+    eshop:casNumber "7439-97-6" ;
+    eshop:regulation "RoHS 2011/65/EU, max 0.1 % by weight" .
+
+ex:M10 a eshop:HazardousMaterial,
+        eshop:Material ;
+    rdfs:label "Cadmium" ;
+    eshop:casNumber "7440-43-9" ;
+    eshop:regulation "RoHS 2011/65/EU, max 0.01 %; Batteries Regulation (EU) 2023/1542" .
+
+ex:M11 a eshop:HazardousMaterial,
+        eshop:Material ;
+    rdfs:label "Decabromodiphenyl ether" ;
+    eshop:casNumber "1163-19-5" ;
+    eshop:regulation "RoHS (PBDE), max 0.1 %; POPs Regulation (EU) 2019/1021" .
+
+ex:M14 a eshop:CriticalRawMaterial,
+        eshop:Material ;
+    rdfs:label "Tantalum" ;
+    eshop:casNumber "7440-25-7" .
+
+ex:M18 a eshop:Material ;
+    rdfs:label "ABS plastic" ;
+    eshop:casNumber "9003-56-9" .
+
+ex:M21 a eshop:CriticalRawMaterial,
+        eshop:Material ;
+    rdfs:label "Gallium nitride" ;
+    eshop:casNumber "25617-97-4" .
+
+ex:P11 a eshop:Product ;
+    rdfs:label "Brightline View 19" ;
+    eshop:category "Monitor" ;
+    eshop:hasPart ex:C10,
+        ex:C15,
+        ex:C18 ;
+    eshop:hasPartUsage ex:P11_C10,
+        ex:P11_C15,
+        ex:P11_C18 ;
+    eshop:itemCondition "refurbished" ;
+    eshop:manufacturedBy ex:MF05 ;
+    eshop:releaseYear 2009 ;
+    eshop:stockQty 3 ;
+    eshop:unitPrice 39.0 .
+
+ex:P12 a eshop:Product ;
+    rdfs:label "Voltaris Air Buds" ;
+    eshop:category "Headphones" ;
+    eshop:hasPart ex:C06,
+        ex:C14,
+        ex:C17,
+        ex:C20 ;
+    eshop:hasPartUsage ex:P12_C06,
+        ex:P12_C14,
+        ex:P12_C17,
+        ex:P12_C20 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF01 ;
+    eshop:releaseYear 2024 ;
+    eshop:stockQty 50 ;
+    eshop:unitPrice 129.0 .
+
+ex:P14 a eshop:Product ;
+    rdfs:label "Voltaris 65W GaN Charger" ;
+    eshop:category "Charger" ;
+    eshop:hasPart ex:C17,
+        ex:C21,
+        ex:C22 ;
+    eshop:hasPartUsage ex:P14_C17,
+        ex:P14_C21,
+        ex:P14_C22 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF01 ;
+    eshop:releaseYear 2024 ;
+    eshop:stockQty 60 ;
+    eshop:unitPrice 49.0 .
+
+ex:P16 a eshop:Product ;
+    rdfs:label "Sunda PowerCell 10000" ;
+    eshop:category "Power bank" ;
+    eshop:hasPart ex:C04,
+        ex:C14,
+        ex:C17,
+        ex:C21 ;
+    eshop:hasPartUsage ex:P16_C04,
+        ex:P16_C14,
+        ex:P16_C17,
+        ex:P16_C21 ;
+    eshop:itemCondition "new" ;
+    eshop:manufacturedBy ex:MF04 ;
+    eshop:releaseYear 2023 ;
+    eshop:stockQty 35 ;
+    eshop:unitPrice 39.0 .
+
+ex:customer1 a eshop:Customer ;
+    rdfs:label "Anna Becker" ;
+    eshop:city "Saarbrücken" .
+
+ex:customer2 a eshop:Customer ;
+    rdfs:label "Jonas Weber" ;
+    eshop:city "Saarbrücken" .
+
+ex:customer4 a eshop:Customer ;
+    rdfs:label "Mehmet Yilmaz" ;
+    eshop:city "Saarbrücken" .
+
+ex:customer7 a eshop:Customer ;
+    rdfs:label "Priya Sharma" ;
+    eshop:city "Saarbrücken" .
+
+ex:C06 a eshop:Component ;
+    rdfs:label "Li-ion micro cell 300 mAh" ;
+    eshop:componentType "battery" ;
+    eshop:containsMaterial ex:M01,
+        ex:M03,
+        ex:M04 ;
+    eshop:hasMaterialContent ex:C06_M01,
+        ex:C06_M03,
+        ex:C06_M04 ;
+    eshop:manufacturedBy ex:MF06 ;
+    eshop:recyclable true .
+
+ex:C08 a eshop:Component ;
+    rdfs:label "LCD display 10.9 in" ;
+    eshop:componentType "display" ;
+    eshop:containsMaterial ex:M05,
+        ex:M15,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C08_M05,
+        ex:C08_M15,
+        ex:C08_M19 ;
+    eshop:manufacturedBy ex:MF07 ;
+    eshop:recyclable false .
+
+ex:C15 a eshop:Component ;
+    rdfs:label "Circuit board with leaded solder (pre-2006)" ;
+    eshop:componentType "pcb" ;
+    eshop:containsMaterial ex:M04,
+        ex:M06,
+        ex:M07,
+        ex:M08 ;
+    eshop:hasMaterialContent ex:C15_M04,
+        ex:C15_M06,
+        ex:C15_M07,
+        ex:C15_M08 ;
+    eshop:recyclable true .
+
+ex:C18 a eshop:Component ;
+    rdfs:label "ABS casing with brominated flame retardant" ;
+    eshop:componentType "casing" ;
+    eshop:containsMaterial ex:M11,
+        ex:M18 ;
+    eshop:hasMaterialContent ex:C18_M11,
+        ex:C18_M18 ;
+    eshop:recyclable false .
+
+ex:M12 a eshop:HazardousMaterial,
+        eshop:Material ;
+    rdfs:label "Nickel" ;
+    eshop:casNumber "7440-02-0" ;
+    eshop:regulation "CLP: Skin Sens. 1, Carc. 2" .
+
+ex:M20 a eshop:Material ;
+    rdfs:label "Silver" ;
+    eshop:casNumber "7440-22-4" .
+
+ex:MF01 a eshop:Manufacturer ;
+    rdfs:label "Voltaris" ;
+    eshop:country "DE" .
+
+ex:MF02 a eshop:Manufacturer ;
+    rdfs:label "Nordlicht Devices" ;
+    eshop:country "DE" .
+
+ex:MF03 a eshop:Manufacturer ;
+    rdfs:label "Kestrel Tech" ;
+    eshop:country "NL" .
+
+ex:MF04 a eshop:Manufacturer ;
+    rdfs:label "Sunda Electronics" ;
+    eshop:country "KR" .
+
+ex:MF05 a eshop:Manufacturer ;
+    rdfs:label "Brightline" ;
+    eshop:country "US" .
+
+ex:C03 a eshop:Component ;
+    rdfs:label "Li-ion laptop pack, 6 cells" ;
+    eshop:componentType "battery" ;
+    eshop:containsMaterial ex:M01,
+        ex:M03,
+        ex:M04,
+        ex:M05,
+        ex:M12 ;
+    eshop:hasMaterialContent ex:C03_M01,
+        ex:C03_M03,
+        ex:C03_M04,
+        ex:C03_M05,
+        ex:C03_M12 ;
+    eshop:manufacturedBy ex:MF06 ;
+    eshop:recyclable true .
+
+ex:C13 a eshop:Component ;
+    rdfs:label "Laptop logic board" ;
+    eshop:componentType "pcb" ;
+    eshop:containsMaterial ex:M04,
+        ex:M06,
+        ex:M07,
+        ex:M16,
+        ex:M20 ;
+    eshop:hasMaterialContent ex:C13_M04,
+        ex:C13_M06,
+        ex:C13_M07,
+        ex:C13_M16,
+        ex:C13_M20 ;
+    eshop:recyclable true .
+
+ex:C20 a eshop:Component ;
+    rdfs:label "Neodymium speaker driver" ;
+    eshop:componentType "audio" ;
+    eshop:containsMaterial ex:M04,
+        ex:M13 ;
+    eshop:hasMaterialContent ex:C20_M04,
+        ex:C20_M13 ;
+    eshop:recyclable true .
+
+ex:C21 a eshop:Component ;
+    rdfs:label "USB-C cable 1 m" ;
+    eshop:componentType "cable" ;
+    eshop:containsMaterial ex:M04,
+        ex:M06 ;
+    eshop:hasMaterialContent ex:C21_M04,
+        ex:C21_M06 ;
+    eshop:recyclable true .
+
+ex:C26 a eshop:Component ;
+    rdfs:label "LCD display 14 in" ;
+    eshop:componentType "display" ;
+    eshop:containsMaterial ex:M05,
+        ex:M15,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C26_M05,
+        ex:C26_M15,
+        ex:C26_M19 ;
+    eshop:manufacturedBy ex:MF07 ;
+    eshop:recyclable false .
+
+ex:M13 a eshop:CriticalRawMaterial,
+        eshop:Material ;
+    rdfs:label "Neodymium" ;
+    eshop:casNumber "7440-00-8" .
+
+ex:M17 a eshop:Material ;
+    rdfs:label "Polycarbonate" ;
+    eshop:casNumber "25037-45-0" .
+
+ex:MF06 a eshop:Manufacturer ;
+    rdfs:label "CellCore" ;
+    eshop:country "CN" .
+
+ex:MF07 a eshop:Manufacturer ;
+    rdfs:label "Panora Displays" ;
+    eshop:country "TW" .
+
+ex:C01 a eshop:Component ;
+    rdfs:label "Li-ion pouch cell 4500 mAh" ;
+    eshop:componentType "battery" ;
+    eshop:containsMaterial ex:M01,
+        ex:M03,
+        ex:M04,
+        ex:M05 ;
+    eshop:hasMaterialContent ex:C01_M01,
+        ex:C01_M03,
+        ex:C01_M04,
+        ex:C01_M05 ;
+    eshop:manufacturedBy ex:MF06 ;
+    eshop:recyclable true .
+
+ex:C07 a eshop:Component ;
+    rdfs:label "OLED display 6.1 in" ;
+    eshop:componentType "display" ;
+    eshop:containsMaterial ex:M15,
+        ex:M16,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C07_M15,
+        ex:C07_M16,
+        ex:C07_M19 ;
+    eshop:manufacturedBy ex:MF07 ;
+    eshop:recyclable false .
+
+ex:C23 a eshop:Component ;
+    rdfs:label "Tantalum capacitor array" ;
+    eshop:componentType "electronic" ;
+    eshop:containsMaterial ex:M14 ;
+    eshop:hasMaterialContent ex:C23_M14 ;
+    eshop:recyclable true .
+
+ex:C24 a eshop:Component ;
+    rdfs:label "Vibration motor" ;
+    eshop:componentType "mechanical" ;
+    eshop:containsMaterial ex:M04,
+        ex:M13 ;
+    eshop:hasMaterialContent ex:C24_M04,
+        ex:C24_M13 ;
+    eshop:recyclable true .
+
+ex:C25 a eshop:Component ;
+    rdfs:label "Camera module" ;
+    eshop:componentType "sensor" ;
+    eshop:containsMaterial ex:M13,
+        ex:M16,
+        ex:M19 ;
+    eshop:hasMaterialContent ex:C25_M13,
+        ex:C25_M16,
+        ex:C25_M19 ;
+    eshop:recyclable false .
+
+ex:M01 a eshop:CriticalRawMaterial,
+        eshop:HazardousMaterial,
+        eshop:Material ;
+    rdfs:label "Lithium cobalt oxide" ;
+    eshop:casNumber "12190-79-3" ;
+    eshop:regulation "CLP: cobalt compounds, Carc. 1B" .
+
+ex:C02 a eshop:Component ;
+    rdfs:label "Li-ion pouch cell 3000 mAh" ;
+    eshop:componentType "battery" ;
+    eshop:containsMaterial ex:M01,
+        ex:M03,
+        ex:M04,
+        ex:M05 ;
+    eshop:hasMaterialContent ex:C02_M01,
+        ex:C02_M03,
+        ex:C02_M04,
+        ex:C02_M05 ;
+    eshop:manufacturedBy ex:MF06 ;
+    eshop:recyclable true .
+
+ex:C19 a eshop:Component ;
+    rdfs:label "Aluminosilicate cover glass" ;
+    eshop:componentType "glass" ;
+    eshop:containsMaterial ex:M19 ;
+    eshop:hasMaterialContent ex:C19_M19 ;
+    eshop:recyclable true .
+
+ex:M03 a eshop:CriticalRawMaterial,
+        eshop:Material ;
+    rdfs:label "Graphite" ;
+    eshop:casNumber "7782-42-5" .
+
+ex:M06 a eshop:Material ;
+    rdfs:label "Gold" ;
+    eshop:casNumber "7440-57-5" .
+
+ex:M07 a eshop:Material ;
+    rdfs:label "Tin" ;
+    eshop:casNumber "7440-31-5" .
+
+ex:C12 a eshop:Component ;
+    rdfs:label "Smartphone logic board" ;
+    eshop:componentType "pcb" ;
+    eshop:containsMaterial ex:M04,
+        ex:M06,
+        ex:M07,
+        ex:M16,
+        ex:M20 ;
+    eshop:hasMaterialContent ex:C12_M04,
+        ex:C12_M06,
+        ex:C12_M07,
+        ex:C12_M16,
+        ex:C12_M20 ;
+    eshop:recyclable true .
+
+ex:C16 a eshop:Component ;
+    rdfs:label "Aluminium unibody casing" ;
+    eshop:componentType "casing" ;
+    eshop:containsMaterial ex:M05 ;
+    eshop:hasMaterialContent ex:C16_M05 ;
+    eshop:recyclable true .
+
+ex:M15 a eshop:Material ;
+    rdfs:label "Indium tin oxide" ;
+    eshop:casNumber "50926-11-9" .
+
+ex:M16 a eshop:CriticalRawMaterial,
+        eshop:Material ;
+    rdfs:label "Silicon" ;
+    eshop:casNumber "7440-21-3" .
+
+ex:C14 a eshop:Component ;
+    rdfs:label "Small device controller board" ;
+    eshop:componentType "pcb" ;
+    eshop:containsMaterial ex:M04,
+        ex:M06,
+        ex:M07,
+        ex:M16 ;
+    eshop:hasMaterialContent ex:C14_M04,
+        ex:C14_M06,
+        ex:C14_M07,
+        ex:C14_M16 ;
+    eshop:recyclable true .
+
+ex:M05 a eshop:Material ;
+    rdfs:label "Aluminium" ;
+    eshop:casNumber "7429-90-5" .
+
+ex:M19 a eshop:Material ;
+    rdfs:label "Aluminosilicate glass" .
+
+ex:C17 a eshop:Component ;
+    rdfs:label "Polycarbonate casing" ;
+    eshop:componentType "casing" ;
+    eshop:containsMaterial ex:M17 ;
+    eshop:hasMaterialContent ex:C17_M17 ;
+    eshop:recyclable true .
+
+ex:M04 a eshop:Material ;
+    rdfs:label "Copper" ;
+    eshop:casNumber "7440-50-8" .
+

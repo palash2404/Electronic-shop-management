@@ -11,8 +11,8 @@ The full plan with the pipeline diagram is in [`docs/pipeline-plan.html`](docs/p
 | Stage | What | Status |
 |---|---|---|
 | 1 | Relational schema + seed data (SQLite) | done |
-| 2 | OWL ontology | planned |
-| 3 | RDF conversion (rdflib) + SPARQL queries | planned |
+| 2 | OWL ontology | done |
+| 3 | RDF conversion (rdflib) + SPARQL queries | done |
 | 4 | SHACL validation (pyshacl) | planned |
 | 5 | Neo4j + Cypher (neosemantics import) | planned |
 | 6 | AI agent with validated writes (PydanticAI, Langfuse) | planned |
@@ -43,9 +43,50 @@ python3 esms.py    # start the shop CLI
 
 Running `db.py` again resets the database to the seed data.
 
+For the graph stages, install the Python packages into a virtual environment:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+```
+
 ## CLI
 
 - **Products**: list, add, update price or stock, delete, show components
 - **Customers**: list, add, update, delete
 - **Bills**: list with totals, create a multi-item bill (one transaction, reduces stock)
 - **Reports**: products with hazardous materials, sales by category, grams of critical raw materials in stock, CSV export
+
+## Knowledge graph (stages 2 and 3)
+
+| File | What it is |
+|---|---|
+| [`graph/ontology.ttl`](graph/ontology.ttl) | The OWL ontology: classes and properties, written by hand |
+| [`graph/data.ttl`](graph/data.ttl) | The shop data as RDF triples, generated from SQLite |
+| [`graph/queries/`](graph/queries) | Five SPARQL queries |
+| [`kg/to_rdf.py`](kg/to_rdf.py) | Converts the database to RDF |
+| [`kg/query.py`](kg/query.py) | Runs a query file and prints a table |
+| [`kg/reason.py`](kg/reason.py) | Runs an OWL RL reasoner (owlrl) over the graph |
+
+```bash
+.venv/bin/python -m kg.to_rdf     # SQLite -> graph/data.ttl (1,433 triples)
+.venv/bin/python -m kg.query      # list the queries
+.venv/bin/python -m kg.query 1    # run one of them
+.venv/bin/python -m kg.reason     # show what the reasoner infers
+```
+
+The hazardous-products report needs four joins in SQL. In SPARQL it is one path:
+
+```sparql
+?product eshop:hasPart/eshop:containsMaterial ?material .
+?material a eshop:HazardousMaterial .
+```
+
+The ontology goes one step further and *defines* a hazardous product as a product that contains some hazardous material. No product is marked hazardous in the data. The reasoner derives it: 0 hazardous products before reasoning, 16 after, the same 16 the SQL report finds.
+
+Modeling choices worth knowing:
+
+- A boolean column (`is_hazardous`) becomes class membership (`a eshop:HazardousMaterial`).
+- A `NULL` becomes a missing triple. RDF has no null.
+- A join table with an extra column (`quantity`, `mass_g`) becomes a direct link plus a node that carries the number (`PartUsage`, `MaterialContent`).
+- `containsMaterial` has no `rdfs:domain`. In OWL a domain is an inference rule, not a check, so a domain of `Component` would make every product a component.

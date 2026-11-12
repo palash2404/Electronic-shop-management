@@ -1,0 +1,12 @@
+# Materials with no CAS number.
+# RDF has no NULL: the triple is simply missing, so we ask for "not exists".
+# Tomorrow a SHACL shape turns this question into a validation rule.
+PREFIX eshop: <http://example.org/eshop#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?material ?name
+WHERE {
+  ?material a eshop:Material ;
+            rdfs:label ?name .
+  FILTER NOT EXISTS { ?material eshop:casNumber ?cas }
+}

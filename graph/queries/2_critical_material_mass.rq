@@ -1,0 +1,19 @@
+# Grams of each EU critical raw material held in current stock.
+# Uses the PartUsage and MaterialContent nodes, because they carry the numbers.
+PREFIX eshop: <http://example.org/eshop#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?material (ROUND(SUM(?stock * ?qty * ?mass) * 10) / 10 AS ?grams_in_stock)
+WHERE {
+  ?product eshop:stockQty ?stock ;
+           eshop:hasPartUsage ?usage .
+  ?usage eshop:usedComponent ?component ;
+         eshop:quantity ?qty .
+  ?component eshop:hasMaterialContent ?content .
+  ?content eshop:material ?m ;
+           eshop:massGrams ?mass .
+  ?m a eshop:CriticalRawMaterial ;
+     rdfs:label ?material .
+}
+GROUP BY ?material
+ORDER BY DESC(?grams_in_stock)

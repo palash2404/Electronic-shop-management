@@ -1,0 +1,16 @@
+# Which sales included a product containing lead or cadmium, and to whom?
+# This crosses the sales side and the materials side of the data in one query.
+PREFIX eshop: <http://example.org/eshop#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?date ?customer ?product ?material
+WHERE {
+  ?bill eshop:billDate ?date ;
+        eshop:billedTo/rdfs:label ?customer ;
+        eshop:hasLine/eshop:soldProduct ?p .
+  ?p rdfs:label ?product ;
+     eshop:hasPart/eshop:containsMaterial ?m .
+  ?m rdfs:label ?material .
+  FILTER (?material IN ("Lead", "Cadmium"))
+}
+ORDER BY ?date ?product

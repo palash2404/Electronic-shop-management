@@ -1,0 +1,18 @@
+# Products that contain a hazardous material.
+# SQL needs four joins for this (see hazardous_products in esms.py).
+# Here it is one path: product -> hasPart -> containsMaterial -> material.
+PREFIX eshop: <http://example.org/eshop#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?product ?name ?condition
+       (GROUP_CONCAT(DISTINCT ?materialName; separator=", ") AS ?hazardous_materials)
+WHERE {
+  ?product a eshop:Product ;
+           rdfs:label ?name ;
+           eshop:itemCondition ?condition ;
+           eshop:hasPart/eshop:containsMaterial ?material .
+  ?material a eshop:HazardousMaterial ;
+            rdfs:label ?materialName .
+}
+GROUP BY ?product ?name ?condition
+ORDER BY ?product
