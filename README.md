@@ -13,7 +13,7 @@ The full plan with the pipeline diagram is in [`docs/pipeline-plan.html`](docs/p
 | 1 | Relational schema + seed data (SQLite) | done |
 | 2 | OWL ontology | done |
 | 3 | RDF conversion (rdflib) + SPARQL queries | done |
-| 4 | SHACL validation (pyshacl) | planned |
+| 4 | SHACL validation (pyshacl) | done |
 | 5 | Neo4j + Cypher (neosemantics import) | planned |
 | 6 | AI agent with validated writes (PydanticAI, Langfuse) | planned |
 | 7 | Datasheet extraction + evaluation | planned |
@@ -90,3 +90,26 @@ Modeling choices worth knowing:
 - A `NULL` becomes a missing triple. RDF has no null.
 - A join table with an extra column (`quantity`, `mass_g`) becomes a direct link plus a node that carries the number (`PartUsage`, `MaterialContent`).
 - `containsMaterial` has no `rdfs:domain`. In OWL a domain is an inference rule, not a check, so a domain of `Component` would make every product a component.
+
+## Validation (stage 4)
+
+[`graph/shapes.ttl`](graph/shapes.ttl) holds the SHACL shapes: the rules the data must follow. [`kg/validate.py`](kg/validate.py) checks a graph against them with pyshacl.
+
+```bash
+.venv/bin/python -m kg.validate                              # the shop data: valid, 1 warning
+.venv/bin/python -m kg.validate graph/examples/invalid.ttl   # broken on purpose: 12 violations
+```
+
+The shapes cover:
+
+- **Required values and counts**: every product has exactly one name, price and manufacturer.
+- **Types and ranges**: prices are decimals of 0 or more, masses are above 0 grams.
+- **Allowed values**: condition is `new` or `refurbished`.
+- **Formats**: CAS numbers match `7439-92-1`, countries are two-letter codes.
+- **Links that must resolve**: a product's manufacturer must exist in the graph as a `Manufacturer`.
+- **Severity**: a material without a CAS number is a warning, not a violation.
+- **A business rule in SPARQL**: a product sold as `new` must not contain a RoHS-restricted material.
+
+OWL and SHACL do different jobs. The ontology adds facts (this product is hazardous). The shapes check facts (this product has no price). OWL would never complain about a missing price, because under the open-world assumption the price may simply be unknown.
+
+`validate()` returns a list of findings, so the AI agent in stage 6 can check a change before writing it.

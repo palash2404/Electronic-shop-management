@@ -1,0 +1,55 @@
+@prefix eshop: <http://example.org/eshop#> .
+@prefix ex:    <http://example.org/eshop/id/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# Deliberately broken data, to see what the shapes catch.
+#   .venv/bin/python -m kg.validate graph/examples/invalid.ttl
+# Each mistake is marked with a comment. Try to predict the report first.
+
+ex:MF90 a eshop:Manufacturer ;
+    rdfs:label "Testwerk" ;
+    eshop:country "Germany" .                 # not a two-letter code
+
+ex:M90 a eshop:Material , eshop:HazardousMaterial ;
+    rdfs:label "Lead" ;
+    eshop:casNumber "7439921" ;               # wrong format
+    eshop:regulation "RoHS 2011/65/EU, max 0.1 % by weight" .
+
+ex:M91 a eshop:Material , eshop:HazardousMaterial ;
+    rdfs:label "Mystery solvent" .            # hazardous, but no regulation; also no CAS (warning)
+
+ex:C90 a eshop:Component ;
+    rdfs:label "Leaded test board" ;
+    eshop:componentType "pcb" ;
+    eshop:recyclable "yes" ;                  # a string, not a boolean
+    eshop:containsMaterial ex:M90 ;
+    eshop:hasMaterialContent ex:C90_M90 .
+
+ex:C90_M90 a eshop:MaterialContent ;
+    eshop:material ex:M90 ;
+    eshop:massGrams -4.0 .                    # negative mass
+
+ex:P90 a eshop:Product ;
+    rdfs:label "Test phone" ;
+    eshop:category "Smartphone" ;
+    eshop:itemCondition "new" ;               # new, but contains lead (the SPARQL rule)
+    eshop:unitPrice 199.00 ;
+    eshop:stockQty 5 ;
+    eshop:releaseYear 2024 ;
+    eshop:manufacturedBy ex:MF90 ;
+    eshop:hasPart ex:C90 ;
+    eshop:hasPartUsage ex:P90_C90 .
+
+ex:P90_C90 a eshop:PartUsage ;
+    eshop:usedComponent ex:C90 ;
+    eshop:quantity 0 .                        # zero parts
+
+ex:P91 a eshop:Product ;
+    rdfs:label "Broken tablet" ;
+    eshop:category "Tablet" ;
+    eshop:itemCondition "used" ;              # not an allowed value
+    eshop:unitPrice -10.00 ;                  # negative price
+    eshop:stockQty 2 ;
+    eshop:releaseYear 1975 ;                  # out of range
+    eshop:manufacturedBy ex:MF99 .            # MF99 does not exist; and there are no parts

@@ -1,0 +1,210 @@
+<title>Day 3 Study Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: single study column; a sticky progress strip, then two timed parts made of checkable tasks, then self-check questions */
+:root{
+  --bg:#f6f7f6; --surface:#ffffff; --fg:#1b2220; --muted:#5a6663; --line:#d9dfdc;
+  --sql:#5d6662; --sql-bg:#eef0ef; --sem:#4448b8; --sem-bg:#ecedfb; --done:#0e7466; --done-bg:#e2f3ef;
+  --code-bg:#eef1ef;
+  --f-display:"Space Grotesk",system-ui,sans-serif; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121615; --surface:#1a1f1e; --fg:#e4eae8; --muted:#9aa6a2; --line:#2c3432;
+  --sql:#b3bcb8; --sql-bg:#252b29; --sem:#a6a9f5; --sem-bg:#24264a; --done:#6fd2bf; --done-bg:#163430;
+  --code-bg:#1f2524; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121615; --surface:#1a1f1e; --fg:#e4eae8; --muted:#9aa6a2; --line:#2c3432;
+  --sql:#b3bcb8; --sql-bg:#252b29; --sem:#a6a9f5; --sem-bg:#24264a; --done:#6fd2bf; --done-bg:#163430;
+  --code-bg:#1f2524; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.65 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+main{max-width:720px;margin:0 auto;padding-block:40px 80px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:2rem}
+h2{font-size:1.35rem}
+h3{font-size:1.05rem;font-weight:500}
+p{margin:0}
+a{color:var(--sem)}
+a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--sem);outline-offset:2px}
+.lede{color:var(--muted);margin-top:10px;max-width:60ch}
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+.bar{flex:1;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--done);transition:width .25s}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+.count{font:13px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.part{display:flex;flex-direction:column;gap:16px}
+.part-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.time{font:13px var(--f-mono);padding:2px 8px;border-radius:4px}
+.p-sql .time{background:var(--sql-bg);color:var(--sql)}
+.p-sem .time{background:var(--sem-bg);color:var(--sem)}
+.task{display:grid;grid-template-columns:24px 1fr;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.task > div{min-width:0;display:flex;flex-direction:column;gap:6px}
+.task input{width:18px;height:18px;margin-top:3px;accent-color:var(--done);cursor:pointer}
+.task label{cursor:pointer}
+.task.is-done{background:var(--done-bg);border-color:transparent}
+.task.is-done h3{text-decoration:line-through;text-decoration-color:var(--muted)}
+.where{font:12px var(--f-mono);color:var(--muted)}
+.task p,.task li{font-size:15px;color:var(--muted)}
+.task p b,.task li b{color:var(--fg);font-weight:500}
+ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+code{font:13px var(--f-mono);background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{margin:0;background:var(--code-bg);border-radius:8px;padding:12px 14px;overflow-x:auto;font:13px/1.55 var(--f-mono)}
+pre code{background:none;padding:0}
+.key{border-left:3px solid var(--sem);padding-left:10px;font-size:15px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+summary{cursor:pointer;font-weight:500}
+details p{margin-top:10px;color:var(--muted);font-size:15px}
+.qs{display:flex;flex-direction:column;gap:10px}
+.note{font-size:15px;color:var(--muted)}
+</style>
+
+<main>
+<header>
+  <h1>Day 3 study plan</h1>
+  <p class="lede">About three hours: 75 minutes making sure you understand the day 2 graph (RDF, OWL, SPARQL), then 105 minutes on SHACL, the day 3 topic. The code for both days is already in the repo, so most tasks are “read it, run it, change it”. Tick tasks as you go; your ticks are remembered in this browser.</p>
+</header>
+
+<div class="progress" aria-live="polite">
+  <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+  <span class="count" id="count">0 / 10 done</span>
+</div>
+
+<section class="part p-sql">
+  <div class="part-head"><h2>Part 1: Understand the day 2 graph</h2><span class="time">~75 min</span></div>
+
+  <div class="task"><input type="checkbox" id="t1"><div><label for="t1"><h3>From rows to triples</h3></label>
+    <span class="where">~15 min · kg/to_rdf.py and graph/data.ttl</span>
+    <p>Open both files side by side. Find <code>ex:P01</code> in <code>data.ttl</code> and match every line to the code that wrote it.</p>
+    <ul>
+      <li><b>Row → IRI:</b> product P01 becomes <code>ex:P01</code>.</li>
+      <li><b>Boolean column → class:</b> <code>is_hazardous</code> becomes <code>a eshop:HazardousMaterial</code>.</li>
+      <li><b>NULL → no triple:</b> look at <code>ex:M19</code>, it has no <code>eshop:casNumber</code> line.</li>
+    </ul></div></div>
+
+  <div class="task"><input type="checkbox" id="t2"><div><label for="t2"><h3>The node that carries a number</h3></label>
+    <span class="where">~10 min · ex:P01_C25 in graph/data.ttl</span>
+    <p>A triple has only three parts, so “P01 has part C25, <b>three times</b>” does not fit in one. The fix is an extra node, <code>ex:P01_C25</code>, with its own <code>eshop:quantity 3</code>.</p>
+    <p class="key"><b>Most important one in part 1.</b> This pattern is called an n-ary relation. Neo4j handles it differently (a property on the edge), which is a good comparison to have ready for the interview.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t3"><div><label for="t3"><h3>Read the ontology top to bottom</h3></label>
+    <span class="where">~20 min · graph/ontology.ttl · background: <a href="https://www.w3.org/TR/owl2-primer/" target="_blank" rel="noopener">OWL 2 Primer</a>, sections 4 and 5</span>
+    <ul>
+      <li><b>Class vs property:</b> which lines declare kinds of things, which declare links.</li>
+      <li><b>Object vs datatype property:</b> <code>hasPart</code> links two things; <code>unitPrice</code> links a thing to a value.</li>
+      <li><b>Why <code>containsMaterial</code> has no domain:</b> read the comment above it. A domain is an inference rule, not a check.</li>
+      <li><b>The two rules:</b> the property chain, and the definition of <code>HazardousProduct</code>.</li>
+    </ul></div></div>
+
+  <div class="task"><input type="checkbox" id="t4"><div><label for="t4"><h3>Run and change the SPARQL queries</h3></label>
+    <span class="where">~20 min · graph/queries/ · background: <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_tutorial" target="_blank" rel="noopener">Wikidata SPARQL tutorial</a>, up to “Filters”</span>
+    <p>Run each query with <code>.venv/bin/python -m kg.query 1</code> (then 2 to 5). Then edit two of them:</p>
+    <ul>
+      <li><b>Query 1:</b> change <code>eshop:HazardousMaterial</code> to <code>eshop:CriticalRawMaterial</code>. How many products now?</li>
+      <li><b>Query 4:</b> change <code>"Lead", "Cadmium"</code> to <code>"Mercury"</code>. Who bought it?</li>
+    </ul>
+    <p>The <code>/</code> in <code>eshop:hasPart/eshop:containsMaterial</code> is a property path: follow one link, then the next.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t5"><div><label for="t5"><h3>Watch the reasoner work</h3></label>
+    <span class="where">~10 min · kg/reason.py</span>
+    <p>Run <code>.venv/bin/python -m kg.reason</code>. It goes from 0 to 16 hazardous products without anyone editing the data.</p>
+    <p>Query 1 also finds 16 products, with no reasoner. Two ways to the same answer:</p>
+    <ul>
+      <li><b>Query 1</b> follows the path itself: product → part → material.</li>
+      <li><b>The reasoner</b> adds the type <code>eshop:HazardousProduct</code> to each product, so afterwards a query only has to ask for that class.</li>
+    </ul>
+    <p>Look at the <code>ASK_HAZARDOUS</code> query in <code>kg/reason.py</code>: it is two lines long. What would it return before reasoning?</p></div></div>
+</section>
+
+<section class="part p-sem">
+  <div class="part-head"><h2>Part 2: SHACL, the day 3 topic</h2><span class="time">~105 min</span></div>
+
+  <div class="task"><input type="checkbox" id="t6"><div><label for="t6"><h3>What SHACL is for</h3></label>
+    <span class="where">~25 min · <a href="https://book.validatingrdf.com/bookHtml011.html" target="_blank" rel="noopener">Validating RDF Data, chapter 5</a>, sections 5.1 to 5.6</span>
+    <ul>
+      <li><b>Shape:</b> a set of rules for one kind of node.</li>
+      <li><b>Target:</b> which nodes the shape checks, e.g. <code>sh:targetClass eshop:Product</code>.</li>
+      <li><b>Property shape:</b> rules for one property, found through <code>sh:path</code>.</li>
+      <li><b>Validation report:</b> the output. It lists the node, the property, the bad value and a message.</li>
+    </ul>
+    <p>Compare with day 1: a shape does the job of <code>CHECK</code>, <code>NOT NULL</code> and <code>FOREIGN KEY</code> in <code>sql/schema.sql</code>.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t7"><div><label for="t7"><h3>The core constraints</h3></label>
+    <span class="where">~20 min · graph/shapes.ttl, ProductShape · reference: <a href="https://www.w3.org/TR/shacl/#core-components" target="_blank" rel="noopener">SHACL spec, section 4</a></span>
+    <p>Find one example of each in <code>ProductShape</code> and say in your own words what it checks:</p>
+    <ul>
+      <li><b><code>sh:minCount</code> / <code>sh:maxCount</code>:</b> how many values.</li>
+      <li><b><code>sh:datatype</code>:</b> the type of a value.</li>
+      <li><b><code>sh:minInclusive</code>:</b> a number range.</li>
+      <li><b><code>sh:in</code>:</b> a fixed list of allowed values.</li>
+      <li><b><code>sh:pattern</code>:</b> a regular expression (see <code>MaterialShape</code>).</li>
+      <li><b><code>sh:class</code>:</b> the linked thing must exist and be of that class.</li>
+    </ul></div></div>
+
+  <div class="task"><input type="checkbox" id="t8"><div><label for="t8"><h3>Exercise: predict the report</h3></label>
+    <span class="where">~20 min · graph/examples/invalid.ttl</span>
+    <p>The file is broken on purpose, with a comment on each mistake. Before running anything, write down in <code>NOTES.md</code> which shape and which constraint will catch each one. Then check:</p>
+<pre><code>.venv/bin/python -m kg.validate graph/examples/invalid.ttl</code></pre>
+    <p>You should see 12 violations and 1 warning. Fix the file one mistake at a time and rerun until it says <code>VALID</code>. Undo your edits afterwards with <code>git checkout graph/examples/invalid.ttl</code> once the file is committed, or keep a copy.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t9"><div><label for="t9"><h3>Exercise: write your own shape rule</h3></label>
+    <span class="where">~20 min · graph/shapes.ttl</span>
+    <p>Add a rule to <code>CustomerShape</code>: a customer needs exactly one city. Start from this and fill in the three missing parts:</p>
+<pre><code>    sh:property [
+        sh:path eshop:city ;
+        # which datatype? how many at least? how many at most?
+        sh:message "A customer needs exactly one city." ] ;</code></pre>
+    <p>Run <code>.venv/bin/python -m kg.validate</code>. It should still be valid. Then delete one <code>eshop:city</code> line in <code>graph/data.ttl</code> and run again to see your rule fire. Restore the file with <code>.venv/bin/python -m kg.to_rdf</code>.</p></div></div>
+
+  <div class="task"><input type="checkbox" id="t10"><div><label for="t10"><h3>Severity and the SPARQL rule</h3></label>
+    <span class="where">~20 min · graph/shapes.ttl · reference: <a href="https://www.w3.org/TR/shacl/#sparql-constraints" target="_blank" rel="noopener">SHACL spec, section 5</a></span>
+    <ul>
+      <li><b>Severity:</b> find <code>sh:severity sh:Warning</code> in <code>MaterialShape</code>. The glass (<code>ex:M19</code>) has no CAS number, and the data is still valid. Why is that a warning and not a violation?</li>
+      <li><b>SPARQL constraint:</b> find <code>sh:sparql</code> in <code>ProductShape</code>. The query returns the nodes that <b>break</b> the rule. <code>$this</code> is the product being checked.</li>
+    </ul>
+    <p class="key"><b>Most important one in part 2.</b> The core constraints look at one node and its direct values. A rule that follows a path through the graph (product → part → material) needs SPARQL.</p></div></div>
+</section>
+
+<section class="part">
+  <h2>Check yourself</h2>
+  <p class="note">Write your answers in <code>NOTES.md</code> in the repo first, then open each one to compare.</p>
+  <div class="qs">
+    <details><summary>1. Why is there a node called ex:P01_C25, when ex:P01 eshop:hasPart ex:C25 already exists?</summary>
+      <p>The direct triple says the phone has that camera module, but it cannot say how many. A triple has no room for a fourth value. The extra node stands for “this use of C25 in P01” and carries <code>eshop:quantity 3</code>. The direct triple is kept as well because it makes path queries short.</p></details>
+    <details><summary>2. No product in data.ttl is typed as eshop:HazardousProduct. How does the reasoner find 16?</summary>
+      <p>Two rules in the ontology. The property chain says: if a product has a part and the part contains a material, the product contains that material. The class definition says: a product that contains some hazardous material is a <code>HazardousProduct</code>. The reasoner applies both and adds the new triples.</p></details>
+    <details><summary>3. What is the difference between OWL and SHACL? Which one complains when a product has no price?</summary>
+      <p>OWL describes meaning and lets a reasoner <b>add</b> facts. SHACL <b>checks</b> facts and reports problems. Only SHACL complains about the missing price. OWL works under the open-world assumption, so a missing price is just unknown, not an error. SHACL treats the graph as complete, like a database constraint.</p></details>
+    <details><summary>4. If containsMaterial had rdfs:domain eshop:Component, what would the reasoner conclude about ex:P01?</summary>
+      <p>That <code>ex:P01</code> is a <code>Component</code>. After the property chain runs, P01 contains materials, and a domain says “whatever has this property is a Component”. OWL does not reject the data, it draws a conclusion from it. To reject data you need SHACL.</p></details>
+    <details><summary>5. Why does the “new products must not contain RoHS materials” rule need sh:sparql?</summary>
+      <p>The material is two links away from the product: product → component → material, and the rule also looks at the material's regulation text. Core constraints such as <code>sh:minCount</code> or <code>sh:in</code> check a node's own values. Combining a condition on the product with a condition on something further along a path is easiest in a SPARQL query.</p></details>
+    <details><summary>6. The shop data has one warning and is still reported as VALID. Why?</summary>
+      <p>The rule for a missing CAS number has <code>sh:severity sh:Warning</code>. <code>kg/validate.py</code> only fails on findings with severity <code>Violation</code>. Aluminosilicate glass is a mixture with no single CAS number, so a hard failure would be wrong, but it is still worth showing.</p></details>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var KEY = "day3-tasks";
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.task input[type="checkbox"]'));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
+  function render(){
+    var done = 0;
+    boxes.forEach(function(b){ b.closest(".task").classList.toggle("is-done", b.checked); if (b.checked) done++; });
+    document.getElementById("bar").style.width = (done / boxes.length * 100) + "%";
+    document.getElementById("count").textContent = done + " / " + boxes.length + " done";
+  }
+  boxes.forEach(function(b){
+    b.checked = !!saved[b.id];
+    b.addEventListener("change", function(){
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      render();
+    });
+  });
+  render();
+})();
+</script>
