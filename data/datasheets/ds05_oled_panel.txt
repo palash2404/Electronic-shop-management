@@ -1,0 +1,21 @@
+PANORA DISPLAYS                         Substance declaration   PD-OL61-22
+6.1 inch OLED display panel, PD-OL61
+
+Manufacturer: Panora Displays, Hsinchu, Taiwan
+Component class: display
+Panel mass: 16.3 g
+
+| Substance                 | CAS        | Mass per panel (g) | Remark                    |
+|---------------------------|------------|--------------------|---------------------------|
+| Aluminosilicate glass     | -          | 14.2               | mixture, no CAS number    |
+| Polymethyl methacrylate   | 9011-14-7  | 1.1                | optical adhesive layer    |
+| Copper                    | 7440-50-8  | 0.9                | flex cable, traces        |
+| Silver                    | 7440-22-4  | 0.03               | contact paste             |
+| Indium tin oxide          | 50926-11-9 | 0.004              | transparent electrode     |
+| Mercury                   | 7439-97-6  | n.d.               | not detected              |
+| Lead                      | 7439-92-1  | n.d.               | not detected              |
+
+n.d. = not detected. Substances marked n.d. are not present in the panel.
+
+End of life: the panel is laminated and cannot be separated into material
+fractions. Not recyclable.

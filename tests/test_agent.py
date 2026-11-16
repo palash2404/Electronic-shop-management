@@ -7,7 +7,8 @@ plays the model's part and decides which tool to call. That makes the test
 repeatable, and it checks the part that matters for safety, which is what
 happens to the data whatever the model asks for.
 
-Every test runs on a temporary copy of the database. Neo4j is not touched.
+Every test runs on a temporary copy of the database (tests/conftest.py).
+Neo4j is not touched.
 """
 import pytest
 from pydantic_ai.messages import ModelResponse, TextPart, ToolCallPart, ToolReturnPart
@@ -19,14 +20,6 @@ from kg.agent import Deps, agent, query_graph
 
 YES = Deps(confirm=lambda summary: True)
 NO = Deps(confirm=lambda summary: False)
-
-
-@pytest.fixture(autouse=True)
-def temp_store(tmp_path, monkeypatch):
-    monkeypatch.setattr(db, "DB_PATH", tmp_path / "eshop.db")
-    monkeypatch.setattr(kg.store, "DATA_PATH", tmp_path / "data.ttl")
-    monkeypatch.setattr(kg.store, "sync_neo4j", lambda graph: "Neo4j skipped in tests.")
-    db.init_db()
 
 
 def scripted(tool_name: str, args: dict) -> FunctionModel:
@@ -122,3 +115,13 @@ def test_query_tool_refuses_writes():
     assert "Query failed" in query_graph("CREATE (:Hack {id: 'x'})")
     assert "Query failed" in query_graph("MATCH (n) DETACH DELETE n")
     assert query_graph("MATCH (n) RETURN count(n) AS n") == before
+
+
+def test_query_results_with_dates_can_be_sent_to_the_model():
+    import json
+    from neo4j.time import Date
+    from kg.agent import _plain
+    row = _plain({"b": {"id": "bill1", "date": Date(2026, 3, 14)}, "names": ["a", "b"], "n": 2})
+    assert row == {"b": {"id": "bill1", "date": "2026-03-14"}, "names": ["a", "b"], "n": 2}
+    json.dumps(row)
+

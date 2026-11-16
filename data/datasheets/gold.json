@@ -1,0 +1,80 @@
+{
+  "ds01_gan_power_pcb.txt": {
+    "component_name": "GaN power stage PCB, 65 W USB-C",
+    "component_type": "pcb",
+    "manufacturer": "Kestrel Tech",
+    "recyclable": true,
+    "materials": [
+      {"name": "Copper", "cas": "7440-50-8", "mass_g": 7.2},
+      {"name": "Glass fibre", "cas": "65997-17-3", "mass_g": 5.5},
+      {"name": "Epoxy resin", "cas": "25068-38-6", "mass_g": 4.1},
+      {"name": "Tin", "cas": "7440-31-5", "mass_g": 0.62},
+      {"name": "Silicon", "cas": "7440-21-3", "mass_g": 0.35},
+      {"name": "Silver", "cas": "7440-22-4", "mass_g": 0.021},
+      {"name": "Gallium nitride", "cas": "25617-97-4", "mass_g": 0.012}
+    ],
+    "hazardous": []
+  },
+  "ds02_lfp_cell.txt": {
+    "component_name": "LFP cylindrical cell 26650, 3300 mAh",
+    "component_type": "battery",
+    "manufacturer": "CellCore",
+    "recyclable": true,
+    "materials": [
+      {"name": "Lithium iron phosphate", "cas": "15365-14-7", "mass_g": 26.66},
+      {"name": "Iron", "cas": "7439-89-6", "mass_g": 16.34},
+      {"name": "Graphite", "cas": "7782-42-5", "mass_g": 14.19},
+      {"name": "Ethylene carbonate", "cas": "96-49-1", "mass_g": 8.17},
+      {"name": "Copper", "cas": "7440-50-8", "mass_g": 7.74},
+      {"name": "Aluminium", "cas": "7429-90-5", "mass_g": 5.59},
+      {"name": "Lithium hexafluorophosphate", "cas": "21324-40-3", "mass_g": 1.72},
+      {"name": "Polyvinylidene fluoride", "cas": "24937-79-9", "mass_g": 1.29}
+    ],
+    "hazardous": ["96-49-1", "21324-40-3"]
+  },
+  "ds03_dect_mainboard.txt": {
+    "component_name": "DECT base station mainboard, rev. C",
+    "component_type": "pcb",
+    "manufacturer": "Nordlicht Devices",
+    "recyclable": false,
+    "materials": [
+      {"name": "Glass fibre", "cas": "65997-17-3", "mass_g": 5.2},
+      {"name": "Copper", "cas": "7440-50-8", "mass_g": 4.8},
+      {"name": "Epoxy resin", "cas": "25068-38-6", "mass_g": 3.9},
+      {"name": "Tin", "cas": "7440-31-5", "mass_g": 0.91},
+      {"name": "Lead", "cas": "7439-92-1", "mass_g": 0.54},
+      {"name": "Antimony trioxide", "cas": "1309-64-4", "mass_g": 0.16},
+      {"name": "Gold", "cas": "7440-57-5", "mass_g": 0.003}
+    ],
+    "hazardous": ["7439-92-1", "1309-64-4"]
+  },
+  "ds04_lautsprecher.txt": {
+    "component_name": "Neodym-Lautsprechertreiber 40 mm",
+    "component_type": "audio",
+    "manufacturer": "Sunda Electronics",
+    "recyclable": true,
+    "materials": [
+      {"name": "Neodymium", "cas": "7440-00-8", "mass_g": 1.45},
+      {"name": "Iron", "cas": "7439-89-6", "mass_g": 3.1},
+      {"name": "Boron", "cas": "7440-42-8", "mass_g": 0.05},
+      {"name": "Copper", "cas": "7440-50-8", "mass_g": 0.8},
+      {"name": "Polycarbonate", "cas": "25037-45-0", "mass_g": 5.6},
+      {"name": "Polyethylene terephthalate", "cas": "25038-59-9", "mass_g": 0.4}
+    ],
+    "hazardous": []
+  },
+  "ds05_oled_panel.txt": {
+    "component_name": "6.1 inch OLED display panel",
+    "component_type": "display",
+    "manufacturer": "Panora Displays",
+    "recyclable": false,
+    "materials": [
+      {"name": "Aluminosilicate glass", "cas": null, "mass_g": 14.2},
+      {"name": "Polymethyl methacrylate", "cas": "9011-14-7", "mass_g": 1.1},
+      {"name": "Copper", "cas": "7440-50-8", "mass_g": 0.9},
+      {"name": "Silver", "cas": "7440-22-4", "mass_g": 0.03},
+      {"name": "Indium tin oxide", "cas": "50926-11-9", "mass_g": 0.004}
+    ],
+    "hazardous": []
+  }
+}

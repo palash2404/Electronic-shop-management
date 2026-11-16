@@ -1,0 +1,48 @@
+[
+  {
+    "question": "How many products does the shop have?",
+    "cypher": "MATCH (p:Product) RETURN count(p) AS n"
+  },
+  {
+    "question": "Which products contain the material lead? Give the product names.",
+    "cypher": "MATCH (p:Product)-[:HAS_PART]->(:Component)-[:CONTAINS]->(m:Material {name: 'Lead'}) RETURN DISTINCT p.name AS name",
+    "universe": "MATCH (p:Product) RETURN p.name AS name"
+  },
+  {
+    "question": "Which customers bought a product that contains cadmium?",
+    "cypher": "MATCH (cu:Customer)-[:PLACED]->(:Bill)-[:INCLUDES]->(:Product)-[:HAS_PART]->(:Component)-[:CONTAINS]->(m:Material {name: 'Cadmium'}) RETURN DISTINCT cu.name AS name",
+    "universe": "MATCH (c:Customer) RETURN c.name AS name"
+  },
+  {
+    "question": "What is the price of the Voltaris Pulse 6?",
+    "cypher": "MATCH (p:Product {name: 'Voltaris Pulse 6'}) RETURN p.unit_price AS price"
+  },
+  {
+    "question": "Which manufacturer makes the component 'Li-ion pouch cell 4500 mAh'?",
+    "cypher": "MATCH (c:Component {name: 'Li-ion pouch cell 4500 mAh'})-[:MADE_BY]->(m:Manufacturer) RETURN m.name AS name",
+    "universe": "MATCH (m:Manufacturer) RETURN m.name AS name"
+  },
+  {
+    "question": "How many refurbished products are there?",
+    "cypher": "MATCH (p:Product {condition: 'refurbished'}) RETURN count(p) AS n"
+  },
+  {
+    "question": "Which hazardous materials does the Nordlicht DECT Phone contain?",
+    "cypher": "MATCH (p:Product {name: 'Nordlicht DECT Phone'})-[:HAS_PART]->(:Component)-[:CONTAINS]->(m:Hazardous) RETURN DISTINCT m.name AS name",
+    "universe": "MATCH (m:Material) RETURN m.name AS name"
+  },
+  {
+    "question": "Which product category has the highest sales revenue?",
+    "cypher": "MATCH (:Bill)-[i:INCLUDES]->(p:Product) WITH p.category AS category, sum(i.quantity * i.unit_price) AS revenue ORDER BY revenue DESC LIMIT 1 RETURN category",
+    "universe": "MATCH (p:Product) RETURN DISTINCT p.category AS name"
+  },
+  {
+    "question": "How many different components is the Voltaris Pulse 6 built from?",
+    "cypher": "MATCH (p:Product {name: 'Voltaris Pulse 6'})-[:HAS_PART]->(c:Component) RETURN count(c) AS n"
+  },
+  {
+    "question": "Which products are made by a manufacturer from the Netherlands (country code NL)?",
+    "cypher": "MATCH (p:Product)-[:MADE_BY]->(m:Manufacturer {country: 'NL'}) RETURN p.name AS name",
+    "universe": "MATCH (p:Product) RETURN p.name AS name"
+  }
+]

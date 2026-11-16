@@ -33,6 +33,7 @@ from kg.to_neo4j import driver
 DEFAULT_MODEL = "ollama:eshop-qwen"   # local Qwen3 4b, see Modelfile; override with ESHOP_MODEL
 MAX_ROWS = 50
 
+
 INSTRUCTIONS = """\
 You help the staff of an electronics shop work with its knowledge graph: products,
 their components, the materials in those components, and sales.
@@ -106,6 +107,25 @@ def _write(ctx: RunContext[Deps], summary: str, statements: list[tuple[str, tupl
         return "REJECTED, nothing was changed. Reasons:\n- " + "\n- ".join(e.reasons)
 
 
+def run_settings() -> dict | None:
+    """Optional cap on the length of one model reply (ESHOP_MAX_TOKENS).
+
+    Free hosted plans limit output tokens per minute and refuse a request whose
+    possible output is larger than that limit, so a cap is needed there.
+    """
+    cap = os.environ.get("ESHOP_MAX_TOKENS")
+    return {"max_tokens": int(cap)} if cap else None
+
+
+def _plain(value):
+    """Neo4j dates and times are not JSON types; send them to the model as text."""
+    if isinstance(value, dict):
+        return {k: _plain(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_plain(v) for v in value]
+    return value if isinstance(value, (str, int, float, bool, type(None))) else str(value)
+
+
 @agent.tool_plain
 def query_graph(cypher: str) -> list[dict] | str:
     """Run a read-only Cypher query against the Neo4j graph and return the rows.
@@ -115,7 +135,7 @@ def query_graph(cypher: str) -> list[dict] | str:
     """
     try:
         with driver() as db, db.session(default_access_mode=READ_ACCESS) as session:
-            rows = [r.data() for r in session.run(cypher)]
+            rows = [_plain(r.data()) for r in session.run(cypher)]
     except Exception as e:  # syntax errors, write attempts, Neo4j not running
         return f"Query failed: {e}"
     if not rows:
@@ -192,7 +212,7 @@ def main() -> None:
     while (question := input("\nYou: ").strip()):
         try:
             result = agent.run_sync(question, model=model, deps=Deps(confirm=ask_user),
-                                    message_history=history)
+                                    message_history=history, model_settings=run_settings())
         except Exception as e:  # Ollama not running, missing API key, network
             print(f"Error: {e}")
             continue

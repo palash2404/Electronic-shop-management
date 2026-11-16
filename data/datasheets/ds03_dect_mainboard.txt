@@ -1,0 +1,21 @@
+Nordlicht Devices GmbH - Material declaration
+Document ND-MD-0417, archived
+
+Component:      DECT base station mainboard, rev. C
+Production:     2009 - 2011 (legacy part, used in refurbished units)
+Type:           PCB assembly
+Maker:          Nordlicht Devices, Kaiserslautern, Germany
+
+All masses in milligrams (mg) per board.
+
+Glass fibre ............ CAS 65997-17-3 ..... 5200 mg
+Copper ................. CAS 7440-50-8 ...... 4800 mg
+Epoxy resin ............ CAS 25068-38-6 ..... 3900 mg
+Tin .................... CAS 7440-31-5 ...... 910 mg
+Lead ................... CAS 7439-92-1 ...... 540 mg    (SnPb solder; restricted under RoHS 2011/65/EU)
+Antimony trioxide ...... CAS 1309-64-4 ...... 160 mg    (flame retardant synergist; CLP Carc. 2, H351)
+Gold ................... CAS 7440-57-5 ...... 3 mg
+
+Note: built before the RoHS lead exemption for this part expired.
+Not recyclable through the standard stream: the leaded solder must be treated
+as hazardous electronic waste.

@@ -1,0 +1,119 @@
+{
+  "kind": "questions",
+  "model": "groq:qwen/qwen3.8-27b",
+  "thinking": true,
+  "date": "2026-11-16",
+  "summary": {
+    "correct": 6,
+    "of": 10
+  },
+  "items": [
+    {
+      "question": "How many products does the shop have?",
+      "expected": [
+        20
+      ],
+      "correct": true,
+      "comment": "",
+      "answer": "The shop has **20 products** in its knowledge graph.",
+      "seconds": 7
+    },
+    {
+      "question": "Which products contain the material lead? Give the product names.",
+      "expected": [
+        "Brightline View 19",
+        "Nordlicht DECT Phone"
+      ],
+      "correct": false,
+      "comment": "missing: Brightline View 19, Nordlicht DECT Phone",
+      "answer": "<tool_call>\n<function=query_graph>\n< parameter='\nMATCH (p:Product)-[:HAS_PART]->(c:Component)-[:CONTAINS]->(m:Material)\nWHERE toLower(m.name) = 'lead'\nRETURN DISTINCT p.name\n</parameter>\n</function>\n</tool_call>",
+      "seconds": 1
+    },
+    {
+      "question": "Which customers bought a product that contains cadmium?",
+      "expected": [
+        "Mehmet Yilmaz"
+      ],
+      "correct": true,
+      "comment": "",
+      "answer": "One customer bought a product containing cadmium:\n\n- **Mehmet Yilmaz** (Saarbrücken) — bought a **Nordlicht DECT Phone** on bill **bill4** (2026-09-28).",
+      "seconds": 32
+    },
+    {
+      "question": "What is the price of the Voltaris Pulse 6?",
+      "expected": [
+        599.0
+      ],
+      "correct": true,
+      "comment": "",
+      "answer": "The Voltaris Pulse 6 (P01) is priced at €599.00.",
+      "seconds": 1
+    },
+    {
+      "question": "Which manufacturer makes the component 'Li-ion pouch cell 4500 mAh'?",
+      "expected": [
+        "CellCore"
+      ],
+      "correct": false,
+      "comment": "missing: CellCore",
+      "answer": "The component “Li-ion pouch cell 4500 mAh” is made by **Samsung SDI (Korea)**.\n\nIt’s used in the P15 “NeuroTab S12” and P20 “AstroDeck Mini” products.",
+      "seconds": 1
+    },
+    {
+      "question": "How many refurbished products are there?",
+      "expected": [
+        5
+      ],
+      "correct": true,
+      "comment": "",
+      "answer": "There are **5** refurbished products.",
+      "seconds": 21
+    },
+    {
+      "question": "Which hazardous materials does the Nordlicht DECT Phone contain?",
+      "expected": [
+        "Lead",
+        "Nickel",
+        "Cadmium",
+        "Decabromodiphenyl ether"
+      ],
+      "correct": false,
+      "comment": "missing: Decabromodiphenyl ether",
+      "answer": "The query returned four hazardous materials in the Nordlicht DECT phone (P18). Let me summarize the results.\n\nThe **Nordlicht DECT phone** contains the following four hazardous materials:\n\n| Component | Hazardous material | CAS no. | Regulation |\n|---|---|---|---|\n| ABS casing with bromine flame retardant (C18) | **Decabromodipenyl ether** | 1163-19-5 | PBDE under the limit of 0.1% in the FIFRA rule, and the European POPs Regulation (EU) 2019/1021 |\n| Printed circuit board with leaded solder (pre-2006) (C15) | **Lead** | 7439-92-1 | Directive 2011/65/EU (FIFRA), up to 0.1% by weight |\n| Ni-Cd 2.4V (M10) (C05) | **Cadmium** | 7440-43-9 | Directive 2011/65/EU (FIFRA) at up to 0.01%; European Battery Regulation (EU) 2023/1542 |\n| Ni-Cd 2.4V (M10) (C05) | **Nickel** | 7440-02-0 | CLP label: Skin Sens. 1, Carc. 2 |\n\nIn other words, this phone contains **Decabromodipenyl ether** (a bromine flame retardant) in the casing, **lead** in a printed circuit board manufactured before 2006, and **cadmium** and **nickel** in the Ni-Cd battery. Please note that the presence of these materials may indicate that the product predates the FIFRA amendment or contains a battery subject to special disposal regulations.",
+      "seconds": 43
+    },
+    {
+      "question": "Which product category has the highest sales revenue?",
+      "expected": [
+        "Smartphone"
+      ],
+      "correct": false,
+      "comment": "wrong extra: Laptop, Tablet, Monitor, Headphones, Charger, Power bank, Smartwatch, Cordless phone, Speaker, E-reader",
+      "answer": "**Smartphone** has the highest sales revenue at **€2,325**, edging out Laptop (€2,247).\n\nFull ranking:\n\n| Category | Revenue |\n|---|---|\n| Smartphone | €2,325 |\n| Laptop | €2,247 |\n| Tablet | €628 |\n| Headphones | €586 |\n| Monitor | €456 |\n| Smartwatch | €249 |\n| Charger | €136 |\n| E-reader | €119 |\n| Power bank | €117 |\n| Speaker | €89 |\n| Cordless phone | €25 |",
+      "seconds": 41
+    },
+    {
+      "question": "How many different components is the Voltaris Pulse 6 built from?",
+      "expected": [
+        8
+      ],
+      "correct": true,
+      "comment": "",
+      "answer": "The **Voltaris Pulse 6** is built from **8 different components**.",
+      "seconds": 23
+    },
+    {
+      "question": "Which products are made by a manufacturer from the Netherlands (country code NL)?",
+      "expected": [
+        "Kestrel Fit 2",
+        "Kestrel K3",
+        "Kestrel Slate 10",
+        "Kestrel Work 15"
+      ],
+      "correct": true,
+      "comment": "",
+      "answer": "There is one manufacturer from the Netherlands — **Kestrel Tech (MF03)** — with 4 products:\n\n| ID | Product | Category | Condition | Price | Stock |\n|----|---------|----------|-----------|-------|-------|\n| P03 | Kestrel K3 | Smartphone | refurbished | €229 | 8 |\n| P06 | Kestrel Work 15 | Laptop | new | €849 | 12 |\n| P09 | Kestrel Slate 10 | Tablet | refurbished | €179 | 6 |\n| P17 | Kestrel Fit 2 | Smartwatch | new | €249 | 22 |",
+      "seconds": 40
+    }
+  ]
+}

@@ -16,7 +16,7 @@ The full plan with the pipeline diagram is in [`docs/pipeline-plan.html`](docs/p
 | 4 | SHACL validation (pyshacl) | done |
 | 5 | Neo4j + Cypher (RDF loaded as a property graph) | done |
 | 6 | AI agent with validated writes (PydanticAI, Langfuse) | done |
-| 7 | Datasheet extraction + evaluation | planned |
+| 7 | Datasheet extraction + evaluation | done |
 
 ## Data model (stage 1)
 
@@ -195,10 +195,76 @@ The default model is `ollama:eshop-qwen`: Qwen3 4b with the context window raise
 
 If `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`, every run is traced to Langfuse: the prompt, each tool call with its arguments and result, token counts and cost. Without the keys the assistant runs untraced.
 
-### Tests
+## Datasheet extraction (stage 7)
+
+[`kg/extract.py`](kg/extract.py) reads a component datasheet or safety data sheet and turns it into a component with its materials. [`data/datasheets/`](data/datasheets) holds five sample sheets written for this project: a material declaration table, a safety data sheet with percentages, a legacy board in milligrams, a German datasheet in prose, and a panel that lists substances as "not detected".
+
+```bash
+.venv/bin/python -m kg.extract data/datasheets/ds02_lfp_cell.txt          # show what was read
+.venv/bin/python -m kg.extract data/datasheets/ds02_lfp_cell.txt --save   # and import it
+.venv/bin/python -m kg.extract data/datasheets/pdf/ds01_gan_power_pcb.pdf # PDFs work too
+```
+
+The work is split so that the model does as little as possible:
+
+| Step | Who | What |
+|---|---|---|
+| Read | model | Fills in a fixed form: name, type, manufacturer, and each substance with its CAS number, amount and unit **as printed** |
+| Convert | code | mg and percent to grams |
+| Check | code | CAS check digit, which catches misread or invented numbers |
+| Match | code | Known materials are found by CAS number, so "Kupfer" and "Copper" are the same material |
+| Import | code | Through `kg/store.py`: validated with SHACL before anything is saved |
+
+The form is a Pydantic class, and the model server is asked for JSON that fits its schema (`NativeOutput`), so even a small model returns a valid form.
+
+## Evaluation (stage 7)
+
+[`kg/evaluate.py`](kg/evaluate.py) scores the model on fixed inputs, so a change to a prompt or a model can be compared with the run before. No model judges a model: the scoring is plain code.
+
+```bash
+.venv/bin/python -m kg.evaluate extraction   # 5 datasheets against data/datasheets/gold.json
+.venv/bin/python -m kg.evaluate questions    # 10 questions against answers computed with Cypher
+```
+
+- **Extraction** is compared with a hand-written answer key, material by material: precision, recall, whether the grams are right, whether the hazard flag is right, and the four component fields.
+- **Questions** ([`eval/questions.json`](eval/questions.json)): each question comes with a hand-written Cypher query that returns the true answer. A reply is correct if it contains every expected value and names no other candidate.
+
+Results are saved under [`eval/results/`](eval/results). The runs use Langfuse's experiment runner: with Langfuse keys in `.env` each run also appears in Langfuse with traces and scores; without keys it runs locally.
+
+### Results with the local model
+
+Qwen3 4b on an 8 GB MacBook (M1), measured on 16 Nov 2026:
+
+| Datasheet extraction (5 sheets) | Score |
+|---|---|
+| Materials found (recall) | 1.00 |
+| Materials that are really in the sheet (precision) | 1.00 |
+| Mass in grams correct | 1.00 |
+| Hazard flag correct | 1.00 |
+| Component name, type, manufacturer, recyclable | 1.00 |
+| Time per sheet | 23 to 30 s |
+
+| Assistant, 10 questions | Correct | Time per question |
+|---|---|---|
+| Qwen3 4b, local | 9 of 10 | 34 to 306 s (median 2 min) |
+| Qwen3.8 27b on Groq's free plan, two runs | 8 and 6 of 10 | 1 to 57 s |
+
+The local model is slow but careful: its one miss was a query that returned nothing. The hosted model answers in seconds, but in one run it invented a manufacturer without querying the graph and once wrote a tool call as plain text. Two of its misses were not the model's fault: a reply cut short by the free plan's output limit, and a correct answer that also listed the runners-up, which the strict scorer counts as wrong.
+
+What the evaluation showed while building this:
+
+- **First prompt:** every material and mass was right, but the component fields scored 0.85. The model typed a circuit board as "cable" and used a document number as a name.
+- **Describing the fields in the prompt** raised the fields to 1.00, and in the same run the hazard score fell to 0.85: on one sheet the model copied "not classified" into every hazard note. A repeat run did not do it. The fix is in code (such notes count as no hazard) plus temperature 0, and a test.
+- **Thinking off:** Qwen3 writes out its reasoning before answering. For form filling that cost a lot and gained nothing: with the same prompt, thinking on took 118 to 281 s per sheet and scored 0.95 on the component fields, against 23 to 30 s and 1.00 with thinking off. It is now off for extraction with Ollama models (`ESHOP_THINK=1` turns it on). The assistant keeps thinking on: with it off, the model wrote its reasoning into the answers and was no faster.
+- **A bug found by switching models:** the hosted model asked for a bill's date, and the query tool could not pass a Neo4j date on to the model. The local model had never asked for one. Fixed, with a test.
+- **The code checks earn their place:** on the panel sheet the model listed two "not detected" substances with amount 0. The code leaves them out, so they never reach the graph.
+
+These numbers come from five sheets and ten questions that were also used to improve the prompts, so they show that the pipeline works, not how it would do on unseen documents. Each assistant run was done once or twice, and the scores vary between runs.
+
+## Tests
 
 ```bash
 .venv/bin/python -m pytest -q
 ```
 
-The tests need no API key. A scripted `FunctionModel` plays the model's part, so each test checks what happens to the data for a given tool call: valid changes are saved, declined and invalid ones are not. They run on a temporary copy of the database.
+The tests need no API key. A scripted `FunctionModel` plays the model's part, so each test checks what happens to the data for a given tool call or a given filled-in form: valid changes are saved, declined and invalid ones are not. The scoring code is tested too. Everything runs on a temporary copy of the database.

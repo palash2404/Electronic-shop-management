@@ -1,0 +1,25 @@
+SAFETY DATA SHEET                                              CellCore Co., Ltd.
+according to Regulation (EC) No 1907/2006                      Revision 4, 2025-11-03
+
+SECTION 1: Identification
+Product name:   LFP cylindrical cell 26650, 3300 mAh
+Product type:   Rechargeable lithium iron phosphate battery cell
+Supplier:       CellCore, Shenzhen, China
+Cell mass:      86.0 g
+
+SECTION 3: Composition / information on ingredients
+
+Ingredient                        CAS number     Content (% by weight)   Classification (CLP)
+Lithium iron phosphate            15365-14-7     31.0                    not classified
+Iron (steel can)                  7439-89-6      19.0                    not classified
+Graphite                          7782-42-5      16.5                    not classified
+Ethylene carbonate                96-49-1        9.5                     Eye Irrit. 2, H319
+Copper                            7440-50-8      9.0                     not classified
+Aluminium                         7429-90-5      6.5                     not classified
+Lithium hexafluorophosphate       21324-40-3     2.0                     Acute Tox. 3, H301; Skin Corr. 1A, H314
+Polyvinylidene fluoride           24937-79-9     1.5                     not classified
+
+The cell contains no cobalt, no nickel and no cadmium.
+
+SECTION 13: Disposal considerations
+Recyclable. Return to a battery collection point (Regulation (EU) 2023/1542).

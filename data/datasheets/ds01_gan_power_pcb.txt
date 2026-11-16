@@ -1,0 +1,25 @@
+KESTREL TECH B.V.                                   Component datasheet KT-PS65-A
+Full material declaration (IEC 62474)                          Issued 2026-03-12
+
+Part:          GaN power stage PCB, 65 W USB-C
+Part number:   KT-PS65-A
+Category:      Printed circuit board assembly
+Manufacturer:  Kestrel Tech, Eindhoven, Netherlands
+Board mass:    17.8 g
+
+Material composition per board
+
+  Substance             CAS no.        Mass (g)
+  -------------------   -----------    --------
+  Copper                7440-50-8      7.2
+  Glass fibre           65997-17-3     5.5
+  Epoxy resin           25068-38-6     4.1
+  Tin                   7440-31-5      0.62
+  Silicon               7440-21-3      0.35
+  Silver                7440-22-4      0.021
+  Gallium nitride       25617-97-4     0.012
+
+Compliance: RoHS 2011/65/EU compliant. Lead-free solder (SAC305).
+Lead, mercury and cadmium are not intentionally added.
+
+End of life: accepted by standard WEEE recyclers. Recyclable: yes.

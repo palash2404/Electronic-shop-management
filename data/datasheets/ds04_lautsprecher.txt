@@ -1,0 +1,16 @@
+Sunda Electronics - Technisches Datenblatt
+Neodym-Lautsprechertreiber 40 mm, Typ SE-D40N
+
+Hersteller: Sunda Electronics, Suwon, Südkorea
+Bauteilart: Audio (Lautsprecher)
+Gesamtgewicht: 12,4 g
+
+Materialzusammensetzung
+Der Magnet besteht aus einer NdFeB-Legierung: 1,45 g Neodym (CAS 7440-00-8),
+3,10 g Eisen (CAS 7439-89-6) und 0,05 g Bor (CAS 7440-42-8). Die Schwingspule
+enthält 0,80 g Kupfer (CAS 7440-50-8). Der Korb ist aus Polycarbonat
+(CAS 25037-45-0) gefertigt und wiegt 5,6 g. Die Membran aus
+Polyethylenterephthalat (CAS 25038-59-9) wiegt 0,4 g.
+
+Das Bauteil enthält kein Blei und kein Cadmium.
+Entsorgung: recyclingfähig, Rückgabe über die Elektroaltgeräte-Sammlung.
