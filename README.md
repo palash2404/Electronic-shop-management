@@ -14,7 +14,7 @@ The full plan with the pipeline diagram is in [`docs/pipeline-plan.html`](docs/p
 | 2 | OWL ontology | done |
 | 3 | RDF conversion (rdflib) + SPARQL queries | done |
 | 4 | SHACL validation (pyshacl) | done |
-| 5 | Neo4j + Cypher (neosemantics import) | planned |
+| 5 | Neo4j + Cypher (RDF loaded as a property graph) | done |
 | 6 | AI agent with validated writes (PydanticAI, Langfuse) | planned |
 | 7 | Datasheet extraction + evaluation | planned |
 
@@ -113,3 +113,44 @@ The shapes cover:
 OWL and SHACL do different jobs. The ontology adds facts (this product is hazardous). The shapes check facts (this product has no price). OWL would never complain about a missing price, because under the open-world assumption the price may simply be unknown.
 
 `validate()` returns a list of findings, so the AI agent in stage 6 can check a change before writing it.
+
+## Neo4j and Cypher (stage 5)
+
+[`kg/to_neo4j.py`](kg/to_neo4j.py) loads `graph/data.ttl` into Neo4j, and [`graph/cypher/`](graph/cypher) holds six Cypher queries. The loader checks the data against the SHACL shapes first and refuses to load invalid data.
+
+Setup on macOS, for a local practice database without a login:
+
+```bash
+brew install neo4j
+# in /opt/homebrew/opt/neo4j/libexec/conf/neo4j.conf set: dbms.security.auth_enabled=false
+neo4j start        # browser UI at http://localhost:7474, stop with: neo4j stop
+```
+
+For a database with a login, set `NEO4J_URI`, `NEO4J_USER` and `NEO4J_PASSWORD` instead.
+
+```bash
+.venv/bin/python -m kg.to_neo4j   # 1,433 triples -> 95 nodes, 243 relationships
+.venv/bin/python -m kg.cypher     # list the queries
+.venv/bin/python -m kg.cypher 5   # run one of them
+```
+
+The same facts are modeled differently in the two graph worlds:
+
+| RDF | Neo4j |
+|---|---|
+| `ex:P01 a eshop:Product` | `(:Product {id: "P01"})` |
+| `a eshop:HazardousMaterial` | a second label: `(:Material:Hazardous)` |
+| extra node `ex:P01_C25` with `eshop:quantity 3` | `(P01)-[:HAS_PART {quantity: 3}]->(C25)` |
+
+In RDF a link cannot carry a value, so quantities and masses needed extra nodes. In Neo4j a relationship has properties, so those nodes disappear: 1,433 triples become 95 nodes and 243 relationships.
+
+The loader maps RDF to this model by hand instead of using the neosemantics (n10s) plugin. n10s imports triples as they are, which would keep the extra nodes; the hand-written mapping gives the model a Neo4j user would design.
+
+All three query languages return the same answers on the shared questions (hazardous products, critical raw materials in stock, sales by category, sales with lead or cadmium):
+
+```cypher
+MATCH (p:Product)-[:HAS_PART]->(:Component)-[:CONTAINS]->(m:Hazardous)
+RETURN p.name, collect(DISTINCT m.name)
+```
+
+Query 5 is a recall: which products use a faulty battery cell, how many are in stock, and which customers to notify.

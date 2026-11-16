@@ -21,15 +21,7 @@ def load() -> Graph:
     return g
 
 
-def show(g: Graph, result) -> None:
-    def text(term) -> str:
-        if term is None:
-            return ""
-        # Print ex:P01 rather than the full IRI.
-        return g.namespace_manager.normalizeUri(term) if isinstance(term, URIRef) else str(term)
-
-    cols = [str(v) for v in result.vars]
-    rows = [[text(row[c]) for c in cols] for row in result]
+def table(cols: list[str], rows: list[list[str]]) -> None:
     if not rows:
         print("(no rows)")
         return
@@ -39,6 +31,17 @@ def show(g: Graph, result) -> None:
     for r in rows:
         print("  ".join(v.ljust(w) for v, w in zip(r, widths)))
     print(f"({len(rows)} rows)")
+
+
+def show(g: Graph, result) -> None:
+    def text(term) -> str:
+        if term is None:
+            return ""
+        # Print ex:P01 rather than the full IRI.
+        return g.namespace_manager.normalizeUri(term) if isinstance(term, URIRef) else str(term)
+
+    cols = [str(v) for v in result.vars]
+    table(cols, [[text(row[c]) for c in cols] for row in result])
 
 
 def main() -> None:
