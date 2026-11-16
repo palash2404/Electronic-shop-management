@@ -213,7 +213,8 @@ def run_questions(model: str, limit: int | None) -> tuple[list[str], list[list],
 
 def main() -> None:
     from dotenv import load_dotenv
-    from kg.agent import DEFAULT_MODEL, setup_tracing
+    from kg.agent import DEFAULT_MODEL
+    from kg.tracing import flush, setup_tracing
     load_dotenv()
     os.environ.setdefault("PYDANTIC_AI_NO_BANNER", "1")
     os.environ.setdefault("OLLAMA_BASE_URL", "http://localhost:11434/v1")
@@ -242,9 +243,7 @@ def main() -> None:
                                "date": str(date.today()), **details},
                               indent=2, ensure_ascii=False) + "\n")
     print(f"\nSaved to {out.relative_to(ROOT)}")
-    if tracing:
-        from langfuse import get_client
-        get_client().flush()
+    flush()
 
 
 if __name__ == "__main__":

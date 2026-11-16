@@ -20,6 +20,7 @@ So the worst a wrong model answer can do is propose a change that you decline
 or that the shapes reject.
 """
 import os
+import uuid
 from dataclasses import dataclass
 from typing import Callable, Literal
 
@@ -28,6 +29,7 @@ from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
 
 from kg.store import Rejected, checked_write
+from kg.tracing import flush, setup_tracing, trace
 from kg.to_neo4j import driver
 
 DEFAULT_MODEL = "ollama:eshop-qwen"   # local Qwen3 4b, see Modelfile; override with ESHOP_MODEL
@@ -94,7 +96,7 @@ class NewProduct(BaseModel):
     parts: list[Part] = Field(description="The components the product is built from")
 
 
-agent = Agent(deps_type=Deps, instructions=INSTRUCTIONS)
+agent = Agent(name="shop-assistant", deps_type=Deps, instructions=INSTRUCTIONS)
 
 
 def _write(ctx: RunContext[Deps], summary: str, statements: list[tuple[str, tuple]]) -> str:
@@ -181,20 +183,6 @@ def delete_product(ctx: RunContext[Deps], product_id: str) -> str:
                   [("DELETE FROM product WHERE product_id = ?", (product_id,))])
 
 
-def setup_tracing() -> bool:
-    """Send traces to Langfuse if its keys are set. Returns whether tracing is on.
-
-    Langfuse then shows each run step by step: the prompt, every tool call with
-    its arguments and result, token counts and cost.
-    """
-    if not (os.environ.get("LANGFUSE_PUBLIC_KEY") and os.environ.get("LANGFUSE_SECRET_KEY")):
-        return False
-    from langfuse import get_client
-    get_client()            # reads LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST
-    Agent.instrument_all()  # PydanticAI emits OpenTelemetry spans; Langfuse collects them
-    return True
-
-
 def ask_user(summary: str) -> bool:
     return input(f"\n  The assistant wants to: {summary}\n  Apply? [y/N] ").strip().lower() == "y"
 
@@ -208,16 +196,26 @@ def main() -> None:
     tracing = setup_tracing()
     print(f"Shop assistant ({model}, Langfuse tracing {'on' if tracing else 'off'}). Empty line to quit.")
 
+    # One chat is one Langfuse session; each question in it is one trace.
+    session = f"chat-{uuid.uuid4().hex[:12]}"
     history = []
-    while (question := input("\nYou: ").strip()):
-        try:
-            result = agent.run_sync(question, model=model, deps=Deps(confirm=ask_user),
-                                    message_history=history, model_settings=run_settings())
-        except Exception as e:  # Ollama not running, missing API key, network
-            print(f"Error: {e}")
-            continue
-        history = result.all_messages()
-        print(f"\nAssistant: {result.output}")
+    try:
+        while (question := input("\nYou: ").strip()):
+            try:
+                with trace("answer-question", input=question, session_id=session,
+                           tags=["assistant"], metadata={"model": str(model)}) as t:
+                    result = agent.run_sync(question, model=model, deps=Deps(confirm=ask_user),
+                                            message_history=history, model_settings=run_settings())
+                    t.update(output=result.output)
+            except Exception as e:  # Ollama not running, missing API key, network
+                print(f"Error: {e}")
+                continue
+            history = result.all_messages()
+            print(f"\nAssistant: {result.output}")
+    except (EOFError, KeyboardInterrupt):
+        print()
+    finally:
+        flush()
 
 
 if __name__ == "__main__":

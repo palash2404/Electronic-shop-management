@@ -193,7 +193,17 @@ The default model is `ollama:eshop-qwen`: Qwen3 4b with the context window raise
 
 ### Tracing with Langfuse
 
-If `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`, every run is traced to Langfuse: the prompt, each tool call with its arguments and result, token counts and cost. Without the keys the assistant runs untraced.
+If `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`, the assistant, the datasheet import and the evaluation are traced to Langfuse. Without the keys nothing is sent. The setup is in [`kg/tracing.py`](kg/tracing.py):
+
+| Level | What it is here | What it holds |
+|---|---|---|
+| Observation | One step: a model call, a tool call, an agent run | Emitted by PydanticAI's instrumentation: model, tokens, the Cypher query and its rows, the model's reasoning |
+| Trace | One unit of work: `answer-question` (one chat turn) or `extract-datasheet` (one sheet) | Input and output a reviewer can read at a glance: the question and the answer, the file and the checked plan |
+| Session | One chat, or the sheets read in one call | All its traces, so a conversation can be replayed in order |
+
+Traces carry a tag for the part of the application (`assistant`, `extraction`), the model as metadata and the environment `development`; evaluation runs land in their own environment. Each command flushes before it exits, so a short run does not lose its last trace.
+
+A trace holds what the model saw, and query results can contain customer names and cities. The sample data is invented; with real customers, mask those fields or self-host Langfuse first.
 
 ## Datasheet extraction (stage 7)
 

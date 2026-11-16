@@ -16,7 +16,8 @@ anything is saved, exactly like a change made by the assistant.
 import os
 import re
 import sys
-from dataclasses import dataclass, field
+import uuid
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Literal
 
@@ -25,6 +26,7 @@ from pydantic_ai import Agent, NativeOutput
 
 from db import query
 from kg.store import Rejected, checked_write
+from kg.tracing import flush, setup_tracing, trace
 
 ComponentType = Literal["battery", "display", "pcb", "casing", "glass", "audio",
                         "cable", "power", "electronic", "mechanical", "sensor"]
@@ -75,7 +77,7 @@ class Datasheet(BaseModel):
 
 # NativeOutput asks the model server for JSON that fits the schema. With Ollama the
 # output is constrained while it is generated, so even a small model returns a valid form.
-extractor = Agent(output_type=NativeOutput(Datasheet), instructions=INSTRUCTIONS)
+extractor = Agent(name="datasheet-extractor", output_type=NativeOutput(Datasheet), instructions=INSTRUCTIONS)
 
 
 def read_sheet(path: Path) -> str:
@@ -250,23 +252,37 @@ def main() -> None:
     paths = [Path(a) for a in sys.argv[1:] if a != "--save"]
     if not paths:
         sys.exit("Usage: python -m kg.extract <datasheet.txt|.pdf> [--save]")
-    for path in paths:
-        print(f"Reading {path.name} with {model} ...")
+    setup_tracing()
+    # The sheets read in one call belong together: one Langfuse session, one trace per sheet.
+    session = f"import-{uuid.uuid4().hex[:12]}"
+    try:
+        for path in paths:
+            import_sheet(path, model, save="--save" in sys.argv, session=session)
+    finally:
+        flush()
+
+
+def import_sheet(path: Path, model: str, save: bool, session: str | None = None) -> None:
+    print(f"Reading {path.name} with {model} ...")
+    # One datasheet is one trace: the file goes in, the checked plan comes out.
+    with trace("extract-datasheet", input={"file": path.name}, session_id=session,
+               tags=["extraction"], metadata={"model": str(model)}) as t:
         plan = make_plan(extract(read_sheet(path), model))
-        show(plan)
-        if "--save" not in sys.argv:
-            continue
-        if plan.problems:
-            print("  Not saved: fix the problems above first.")
-            continue
-        summary, sql = statements(plan)
-        if input(f"\n  {summary}\n  Apply? [y/N] ").strip().lower() != "y":
-            print("  Not saved.")
-            continue
-        try:
-            print(" ", checked_write(sql))
-        except Rejected as e:
-            print("  REJECTED, nothing was changed:\n  - " + "\n  - ".join(e.reasons))
+        t.update(output=asdict(plan))
+    show(plan)
+    if not save:
+        return
+    if plan.problems:
+        print("  Not saved: fix the problems above first.")
+        return
+    summary, sql = statements(plan)
+    if input(f"\n  {summary}\n  Apply? [y/N] ").strip().lower() != "y":
+        print("  Not saved.")
+        return
+    try:
+        print(" ", checked_write(sql))
+    except Rejected as e:
+        print("  REJECTED, nothing was changed:\n  - " + "\n  - ".join(e.reasons))
 
 
 if __name__ == "__main__":
