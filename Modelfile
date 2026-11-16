@@ -1,0 +1,9 @@
+# The local model for the shop assistant: Qwen3 4b with a larger context window.
+# Ollama's default window is 4,096 tokens. The assistant's instructions, tool
+# definitions and query results do not fit, and Ollama then drops the oldest
+# text without an error.
+#
+#   ollama pull qwen3:4b
+#   ollama create eshop-qwen -f Modelfile
+FROM qwen3:4b
+PARAMETER num_ctx 8192

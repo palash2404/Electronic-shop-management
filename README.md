@@ -15,7 +15,7 @@ The full plan with the pipeline diagram is in [`docs/pipeline-plan.html`](docs/p
 | 3 | RDF conversion (rdflib) + SPARQL queries | done |
 | 4 | SHACL validation (pyshacl) | done |
 | 5 | Neo4j + Cypher (RDF loaded as a property graph) | done |
-| 6 | AI agent with validated writes (PydanticAI, Langfuse) | planned |
+| 6 | AI agent with validated writes (PydanticAI, Langfuse) | done |
 | 7 | Datasheet extraction + evaluation | planned |
 
 ## Data model (stage 1)
@@ -154,3 +154,51 @@ RETURN p.name, collect(DISTINCT m.name)
 ```
 
 Query 5 is a recall: which products use a faulty battery cell, how many are in stock, and which customers to notify.
+
+## AI assistant (stage 6)
+
+[`kg/agent.py`](kg/agent.py) is a chat assistant built with PydanticAI. You ask questions in plain language and it answers from the graph; you ask for a change and it proposes one.
+
+It runs on a local model by default, so it needs no API key and no data leaves the machine:
+
+```bash
+brew install ollama
+brew services start ollama         # the local model server
+ollama pull qwen3:4b               # 2.5 GB, runs in 8 GB RAM
+ollama create eshop-qwen -f Modelfile   # the same model with a larger context window
+.venv/bin/python -m kg.agent
+```
+
+The model never touches the data directly. It can only call four tools:
+
+| Tool | What it does | Guard |
+|---|---|---|
+| `query_graph` | Runs Cypher against Neo4j | Read-only session: write statements fail |
+| `add_product` | Adds a product with its components | Typed arguments (Pydantic), your confirmation, then SHACL |
+| `update_product` | Changes price or stock | Your confirmation, then SHACL |
+| `delete_product` | Deletes a product | Your confirmation, then database and SHACL rules |
+
+Every write goes through [`kg/store.py`](kg/store.py), which validates before it commits:
+
+1. Run the SQL inside an open transaction. SQLite checks keys and `CHECK` constraints.
+2. Build the RDF graph from that uncommitted state.
+3. Validate it against the SHACL shapes.
+4. Commit only if there are no violations. Otherwise roll back and tell the model why.
+
+After a commit, `graph/data.ttl` is rewritten and Neo4j is reloaded, so the three stores stay in step.
+
+Example: the model tries to add a product sold as new that contains a leaded circuit board. SQL has no rule against it. The SHACL shape does, so nothing is saved and the assistant reports: *a product sold as 'new' must not contain a RoHS-restricted material*.
+
+The default model is `ollama:eshop-qwen`: Qwen3 4b with the context window raised from Ollama's default of 4,096 tokens to 8,192 (see [`Modelfile`](Modelfile)). With the default window the instructions, tool definitions and query results do not fit, and Ollama drops the oldest text without an error. A 4-billion-parameter model is slow and makes more mistakes than a hosted one, which is exactly why the guards above matter: a wrong query returns an error, and a wrong change is declined or rejected. To use another model, copy `.env.example` to `.env` and set `ESHOP_MODEL` and the provider's key (for example `groq:qwen/qwen3.8-27b` with `GROQ_API_KEY`, or `anthropic:claude-haiku-5-5` with `ANTHROPIC_API_KEY`).
+
+### Tracing with Langfuse
+
+If `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set in `.env`, every run is traced to Langfuse: the prompt, each tool call with its arguments and result, token counts and cost. Without the keys the assistant runs untraced.
+
+### Tests
+
+```bash
+.venv/bin/python -m pytest -q
+```
+
+The tests need no API key. A scripted `FunctionModel` plays the model's part, so each test checks what happens to the data for a given tool call: valid changes are saved, declined and invalid ones are not. They run on a temporary copy of the database.

@@ -20,18 +20,20 @@ def dec(value) -> Literal:
     return Literal(Decimal(str(value)), datatype=XSD.decimal)
 
 
-def build() -> Graph:
+def build(fetch=query) -> Graph:
+    """Build the RDF graph. fetch(sql) returns rows as dicts; the default reads
+    the saved database, and kg/store.py passes one that sees an open transaction."""
     g = Graph()
     g.bind("eshop", ESHOP)
     g.bind("ex", EX)
 
-    for r in query("SELECT * FROM manufacturer"):
+    for r in fetch("SELECT * FROM manufacturer"):
         s = EX[r["manufacturer_id"]]
         g.add((s, RDF.type, ESHOP.Manufacturer))
         g.add((s, RDFS.label, Literal(r["name"])))
         g.add((s, ESHOP.country, Literal(r["country"])))
 
-    for r in query("SELECT * FROM material"):
+    for r in fetch("SELECT * FROM material"):
         s = EX[r["material_id"]]
         g.add((s, RDF.type, ESHOP.Material))
         g.add((s, RDFS.label, Literal(r["name"])))
@@ -46,7 +48,7 @@ def build() -> Graph:
         if r["regulation"]:
             g.add((s, ESHOP.regulation, Literal(r["regulation"])))
 
-    for r in query("SELECT * FROM component"):
+    for r in fetch("SELECT * FROM component"):
         s = EX[r["component_id"]]
         g.add((s, RDF.type, ESHOP.Component))
         g.add((s, RDFS.label, Literal(r["name"])))
@@ -55,7 +57,7 @@ def build() -> Graph:
         if r["manufacturer_id"]:
             g.add((s, ESHOP.manufacturedBy, EX[r["manufacturer_id"]]))
 
-    for r in query("SELECT * FROM product"):
+    for r in fetch("SELECT * FROM product"):
         s = EX[r["product_id"]]
         g.add((s, RDF.type, ESHOP.Product))
         g.add((s, RDFS.label, Literal(r["name"])))
@@ -68,7 +70,7 @@ def build() -> Graph:
 
     # A join table with an extra column becomes two things: a direct link
     # (easy to query) and a node that carries the number.
-    for r in query("SELECT * FROM product_component"):
+    for r in fetch("SELECT * FROM product_component"):
         product, component = EX[r["product_id"]], EX[r["component_id"]]
         usage = EX[f"{r['product_id']}_{r['component_id']}"]
         g.add((product, ESHOP.hasPart, component))
@@ -77,7 +79,7 @@ def build() -> Graph:
         g.add((usage, ESHOP.usedComponent, component))
         g.add((usage, ESHOP.quantity, Literal(r["quantity"])))
 
-    for r in query("SELECT * FROM component_material"):
+    for r in fetch("SELECT * FROM component_material"):
         component, material = EX[r["component_id"]], EX[r["material_id"]]
         content = EX[f"{r['component_id']}_{r['material_id']}"]
         g.add((component, ESHOP.containsMaterial, material))
@@ -86,19 +88,19 @@ def build() -> Graph:
         g.add((content, ESHOP.material, material))
         g.add((content, ESHOP.massGrams, dec(r["mass_g"])))
 
-    for r in query("SELECT * FROM customer"):
+    for r in fetch("SELECT * FROM customer"):
         s = EX[f"customer{r['customer_id']}"]
         g.add((s, RDF.type, ESHOP.Customer))
         g.add((s, RDFS.label, Literal(r["name"])))
         g.add((s, ESHOP.city, Literal(r["city"])))
 
-    for r in query("SELECT * FROM bill"):
+    for r in fetch("SELECT * FROM bill"):
         s = EX[f"bill{r['bill_id']}"]
         g.add((s, RDF.type, ESHOP.Bill))
         g.add((s, ESHOP.billedTo, EX[f"customer{r['customer_id']}"]))
         g.add((s, ESHOP.billDate, Literal(r["bill_date"], datatype=XSD.date)))
 
-    for r in query("SELECT * FROM bill_item"):
+    for r in fetch("SELECT * FROM bill_item"):
         bill = EX[f"bill{r['bill_id']}"]
         line = EX[f"bill{r['bill_id']}_{r['product_id']}"]
         g.add((bill, ESHOP.hasLine, line))
